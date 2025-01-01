@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#F3F4F6"/>
+  
+  <!-- Neural Network Visualization -->
+  <!-- Input Layer -->
+  <circle cx="200" cy="200" r="20" fill="#3B82F6"/>
+  <circle cx="200" cy="300" r="20" fill="#3B82F6"/>
+  <circle cx="200" cy="400" r="20" fill="#3B82F6"/>
+  
+  <!-- Hidden Layer -->
+  <circle cx="400" cy="150" r="20" fill="#3B82F6"/>
+  <circle cx="400" cy="250" r="20" fill="#3B82F6"/>
+  <circle cx="400" cy="350" r="20" fill="#3B82F6"/>
+  <circle cx="400" cy="450" r="20" fill="#3B82F6"/>
+  
+  <!-- Output Layer -->
+  <circle cx="600" cy="250" r="20" fill="#3B82F6"/>
+  <circle cx="600" cy="350" r="20" fill="#3B82F6"/>
+  
+  <!-- Connections -->
+  <!-- Input to Hidden -->
+  <path d="M220 200 L380 150" stroke="#93C5FD" stroke-width="2"/>
+  <path d="M220 200 L380 250" stroke="#93C5FD" stroke-width="2"/>
+  <path d="M220 200 L380 350" stroke="#93C5FD" stroke-width="2"/>
+  <path d="M220 200 L380 450" stroke="#93C5FD" stroke-width="2"/>
+  
+  <path d="M220 300 L380 150" stroke="#93C5FD" stroke-width="2"/>
+  <path d="M220 300 L380 250" stroke="#93C5FD" stroke-width="2"/>
+  <path d="M220 300 L380 350" stroke="#93C5FD" stroke-width="2"/>
+  <path d="M220 300 L380 450" stroke="#93C5FD" stroke-width="2"/>
+  
+  <path d="M220 400 L380 150" stroke="#93C5FD" stroke-width="2"/>
+  <path d="M220 400 L380 250" stroke="#93C5FD" stroke-width="2"/>
+  <path d="M220 400 L380 350" stroke="#93C5FD" stroke-width="2"/>
+  <path d="M220 400 L380 450" stroke="#93C5FD" stroke-width="2"/>
+  
+  <!-- Hidden to Output -->
+  <path d="M420 150 L580 250" stroke="#93C5FD" stroke-width="2"/>
+  <path d="M420 150 L580 350" stroke="#93C5FD" stroke-width="2"/>
+  
+  <path d="M420 250 L580 250" stroke="#93C5FD" stroke-width="2"/>
+  <path d="M420 250 L580 350" stroke="#93C5FD" stroke-width="2"/>
+  
+  <path d="M420 350 L580 250" stroke="#93C5FD" stroke-width="2"/>
+  <path d="M420 350 L580 350" stroke="#93C5FD" stroke-width="2"/>
+  
+  <path d="M420 450 L580 250" stroke="#93C5FD" stroke-width="2"/>
+  <path d="M420 450 L580 350" stroke="#93C5FD" stroke-width="2"/>
+</svg> 

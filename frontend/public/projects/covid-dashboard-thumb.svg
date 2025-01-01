@@ -1,0 +1,21 @@
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#dc2626;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f87171;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="400" fill="url(#grad4)"/>
+  <!-- Graph Lines -->
+  <path d="M 100 300 L 200 250 L 300 280 L 400 200 L 500 150 L 600 180 L 700 100" 
+        stroke="#ffffff" stroke-width="3" fill="none" opacity="0.8"/>
+  <path d="M 100 250 L 200 280 L 300 220 L 400 240 L 500 200 L 600 230 L 700 150" 
+        stroke="#ffffff" stroke-width="3" fill="none" opacity="0.4"/>
+  <!-- Data Points -->
+  <circle cx="200" cy="250" r="6" fill="#ffffff"/>
+  <circle cx="400" cy="200" r="6" fill="#ffffff"/>
+  <circle cx="600" cy="180" r="6" fill="#ffffff"/>
+  <text x="400" y="100" font-family="Arial" font-size="32" fill="#ffffff" text-anchor="middle" dominant-baseline="middle">
+    COVID-19 Dashboard
+  </text>
+</svg> 

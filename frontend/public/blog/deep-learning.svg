@@ -1,0 +1,37 @@
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7c3aed;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a78bfa;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="400" fill="url(#grad3)"/>
+  
+  {/* Neural Network Visualization */}
+  {/* Input Layer */}
+  <circle cx="200" cy="100" r="20" fill="#ffffff" opacity="0.7"/>
+  <circle cx="200" cy="200" r="20" fill="#ffffff" opacity="0.7"/>
+  <circle cx="200" cy="300" r="20" fill="#ffffff" opacity="0.7"/>
+  
+  {/* Hidden Layer */}
+  <circle cx="400" cy="150" r="20" fill="#ffffff" opacity="0.7"/>
+  <circle cx="400" cy="250" r="20" fill="#ffffff" opacity="0.7"/>
+  
+  {/* Output Layer */}
+  <circle cx="600" cy="200" r="20" fill="#ffffff" opacity="0.7"/>
+  
+  {/* Connections */}
+  <line x1="220" y1="100" x2="380" y2="150" stroke="#ffffff" stroke-width="2" opacity="0.4"/>
+  <line x1="220" y1="100" x2="380" y2="250" stroke="#ffffff" stroke-width="2" opacity="0.4"/>
+  <line x1="220" y1="200" x2="380" y2="150" stroke="#ffffff" stroke-width="2" opacity="0.4"/>
+  <line x1="220" y1="200" x2="380" y2="250" stroke="#ffffff" stroke-width="2" opacity="0.4"/>
+  <line x1="220" y1="300" x2="380" y2="150" stroke="#ffffff" stroke-width="2" opacity="0.4"/>
+  <line x1="220" y1="300" x2="380" y2="250" stroke="#ffffff" stroke-width="2" opacity="0.4"/>
+  
+  <line x1="420" y1="150" x2="580" y2="200" stroke="#ffffff" stroke-width="2" opacity="0.4"/>
+  <line x1="420" y1="250" x2="580" y2="200" stroke="#ffffff" stroke-width="2" opacity="0.4"/>
+  
+  <text x="400" y="50" font-family="Arial" font-size="24" fill="#ffffff" text-anchor="middle">
+    Deep Learning Modelleri
+  </text>
+</svg> 

@@ -1,0 +1,15 @@
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#059669;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#34d399;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="400" fill="url(#grad2)"/>
+  <path d="M 400 100 Q 500 200 400 300 Q 300 200 400 100" fill="#ffffff" opacity="0.3"/>
+  <path d="M 300 150 Q 400 250 300 350 Q 200 250 300 150" fill="#ffffff" opacity="0.2"/>
+  <path d="M 500 150 Q 600 250 500 350 Q 400 250 500 150" fill="#ffffff" opacity="0.2"/>
+  <text x="400" y="200" font-family="Arial" font-size="32" fill="#ffffff" text-anchor="middle" dominant-baseline="middle">
+    Yaprak Sınıflandırma
+  </text>
+</svg> 
