@@ -2,46 +2,59 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { BsFilePost, BsFolder, BsPerson } from 'react-icons/bs'
-import { HiOutlineDocumentAdd } from 'react-icons/hi'
+import { BsFilePost, BsFolder, BsPencil, BsTrash, BsPlus } from 'react-icons/bs'
+import Image from 'next/image'
+import Link from 'next/link'
 
-// Örnek proje verisi
-const sampleProject = {
-  id: Date.now(),
-  title: "Derin Öğrenme ile Türkçe Duygu Analizi",
-  shortDescription: "BERT tabanlı derin öğrenme modeli kullanarak Türkçe sosyal medya gönderilerinde duygu analizi yapan bir sistem geliştirdim.",
-  technologies: "Python, PyTorch, Transformers, Scikit-learn, Pandas",
-  category: "Derin Öğrenme",
-  thumbnail: "https://images.unsplash.com/photo-1501621667575-af81f1f0bacc?q=80&w=1470&auto=format&fit=crop",
-  projectDetails: {
-    problem: "Sosyal medya platformlarında Türkçe içeriklerin duygu analizini otomatik olarak gerçekleştirmek, manuel analiz süreçlerinin zaman alıcı ve maliyetli olması nedeniyle önemli bir ihtiyaç haline gelmiştir. Mevcut çözümlerin çoğu İngilizce odaklı olup, Türkçe'nin kendine özgü dilbilimsel özelliklerini yeterince ele alamamaktadır.",
-    solution: "Bu problemi çözmek için, BERT (Bidirectional Encoder Representations from Transformers) mimarisini temel alan ve Türkçe metinler için özel olarak ince-ayar (fine-tuning) yapılmış bir derin öğrenme modeli geliştirdim. Model, sosyal medya gönderilerini pozitif, negatif ve nötr olmak üzere üç kategoride sınıflandırmaktadır.",
-    methodology: "1. Veri Toplama ve Ön İşleme:\n- Twitter API kullanılarak 100,000+ Türkçe tweet toplandı\n- Metin temizleme ve normalizasyon işlemleri uygulandı\n- Dengeli bir veri seti oluşturmak için örnekleme yapıldı\n\n2. Model Geliştirme:\n- BERTurk modelinin transfer learning ile adaptasyonu\n- Hyperparameter optimizasyonu\n- 5-fold cross validation ile model değerlendirmesi\n\n3. Deployment:\n- REST API geliştirme (FastAPI)\n- Docker containerization\n- CI/CD pipeline kurulumu",
-    results: "- Model Performansı:\n  * Doğruluk (Accuracy): 91.2%\n  * F1-Score: 0.89\n  * Precision: 0.88\n  * Recall: 0.90\n\n- Gerçek Zamanlı Analiz:\n  * 1000+ tweet/saniye işleme kapasitesi\n  * Ortalama yanıt süresi < 100ms\n\n- Üretim Ortamı:\n  * 99.9% uptime\n  * Otomatik ölçeklendirme ile yük yönetimi",
-    conclusions: "Geliştirilen model, Türkçe duygu analizi alanında state-of-the-art sonuçlar elde etmiştir. Özellikle sosyal medya dilinin kendine özgü yapısını ve Türkçe'nin morfolojik zenginliğini başarıyla ele alabilmektedir. Model, marka itibarı yönetimi, müşteri geri bildirimi analizi ve sosyal medya izleme gibi çeşitli alanlarda pratik uygulamalara sahiptir."
-  },
-  links: {
-    github: "https://github.com/username/turkish-sentiment-analysis",
-    demo: "https://demo-sentiment.example.com",
-    documentation: "https://docs-sentiment.example.com"
-  },
-  charts: [
-    "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1470&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=1476&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?q=80&w=1406&auto=format&fit=crop"
-  ],
-  createdAt: new Date().toISOString()
+interface Project {
+  id: number
+  title: string
+  shortDescription: string
+  category: string
+  thumbnail: string | null
+  createdAt: string
+}
+
+interface BlogPost {
+  id: number
+  title: string
+  summary: string
+  category: string
+  image: string
+  publishDate: string
+  slug: string
 }
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('projects')
+  const [projects, setProjects] = useState<Project[]>([])
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
   const router = useRouter()
 
-  const addSampleProject = () => {
-    const existingProjects = JSON.parse(localStorage.getItem('projects') || '[]')
-    const updatedProjects = [...existingProjects, sampleProject]
-    localStorage.setItem('projects', JSON.stringify(updatedProjects))
-    alert('Örnek proje başarıyla eklendi!')
+  useEffect(() => {
+    // Load projects from localStorage
+    const loadedProjects = JSON.parse(localStorage.getItem('projects') || '[]')
+    setProjects(loadedProjects)
+
+    // Load blog posts from localStorage
+    const loadedPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]')
+    setBlogPosts(loadedPosts)
+  }, [])
+
+  const handleDeleteProject = (id: number) => {
+    if (window.confirm('Bu projeyi silmek istediğinizden emin misiniz?')) {
+      const updatedProjects = projects.filter(project => project.id !== id)
+      localStorage.setItem('projects', JSON.stringify(updatedProjects))
+      setProjects(updatedProjects)
+    }
+  }
+
+  const handleDeleteBlogPost = (id: number) => {
+    if (window.confirm('Bu blog yazısını silmek istediğinizden emin misiniz?')) {
+      const updatedPosts = blogPosts.filter(post => post.id !== id)
+      localStorage.setItem('blogPosts', JSON.stringify(updatedPosts))
+      setBlogPosts(updatedPosts)
+    }
   }
 
   return (
@@ -69,31 +82,197 @@ export default function AdminDashboard() {
                 <BsFolder size={20} />
                 <span>Projeler</span>
               </button>
+              <button
+                onClick={() => setActiveTab('blog')}
+                className={`flex items-center space-x-3 w-full px-4 py-3 text-left ${
+                  activeTab === 'blog'
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200'
+                } rounded-lg shadow hover:shadow-md transition-all duration-200`}
+              >
+                <BsFilePost size={20} />
+                <span>Blog Yazıları</span>
+              </button>
             </nav>
           </div>
 
           {/* Main Content */}
-          <div className="lg:col-span-4 bg-white dark:bg-gray-800 rounded-lg shadow">
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Projeler</h2>
-                <div className="space-x-4">
-                  <button 
-                    onClick={addSampleProject}
-                    className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
-                  >
-                    Örnek Proje Ekle
-                  </button>
-                  <button 
-                    onClick={() => router.push('/admin/new-project')}
-                    className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-                  >
-                    <HiOutlineDocumentAdd className="mr-2" size={20} />
-                    Yeni Proje
-                  </button>
+          <div className="lg:col-span-4">
+            {activeTab === 'projects' ? (
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow">
+                <div className="p-6">
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Projeler</h2>
+                    <Link
+                      href="/admin/new-project"
+                      className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                    >
+                      <BsPlus className="mr-2" size={20} />
+                      Yeni Proje
+                    </Link>
+                  </div>
+
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                      <thead className="bg-gray-50 dark:bg-gray-700">
+                        <tr>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            Proje
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            Kategori
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            Tarih
+                          </th>
+                          <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            İşlemler
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                        {projects.map((project) => (
+                          <tr key={project.id}>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div className="flex items-center">
+                                <div className="h-10 w-10 flex-shrink-0">
+                                  {project.thumbnail ? (
+                                    <Image
+                                      src={project.thumbnail}
+                                      alt={project.title}
+                                      width={40}
+                                      height={40}
+                                      className="rounded-lg object-cover"
+                                    />
+                                  ) : (
+                                    <div className="h-10 w-10 rounded-lg bg-gray-200 dark:bg-gray-700" />
+                                  )}
+                                </div>
+                                <div className="ml-4">
+                                  <div className="text-sm font-medium text-gray-900 dark:text-white">
+                                    {project.title}
+                                  </div>
+                                  <div className="text-sm text-gray-500 dark:text-gray-400">
+                                    {project.shortDescription.substring(0, 50)}...
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
+                                {project.category}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                              {new Date(project.createdAt).toLocaleDateString('tr-TR')}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                              <button
+                                onClick={() => router.push(`/admin/edit-project/${project.id}`)}
+                                className="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 mr-4"
+                              >
+                                <BsPencil size={18} />
+                              </button>
+                              <button
+                                onClick={() => handleDeleteProject(project.id)}
+                                className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300"
+                              >
+                                <BsTrash size={18} />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow">
+                <div className="p-6">
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Blog Yazıları</h2>
+                    <Link
+                      href="/admin/new-blog"
+                      className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                    >
+                      <BsPlus className="mr-2" size={20} />
+                      Yeni Yazı
+                    </Link>
+                  </div>
+
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                      <thead className="bg-gray-50 dark:bg-gray-700">
+                        <tr>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            Yazı
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            Kategori
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            Yayın Tarihi
+                          </th>
+                          <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            İşlemler
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                        {blogPosts.map((post) => (
+                          <tr key={post.id}>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div className="flex items-center">
+                                <div className="h-10 w-10 flex-shrink-0">
+                                  <Image
+                                    src={post.image}
+                                    alt={post.title}
+                                    width={40}
+                                    height={40}
+                                    className="rounded-lg object-cover"
+                                  />
+                                </div>
+                                <div className="ml-4">
+                                  <div className="text-sm font-medium text-gray-900 dark:text-white">
+                                    {post.title}
+                                  </div>
+                                  <div className="text-sm text-gray-500 dark:text-gray-400">
+                                    {post.summary.substring(0, 50)}...
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
+                                {post.category}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                              {post.publishDate}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                              <button
+                                onClick={() => router.push(`/admin/edit-blog/${post.slug}`)}
+                                className="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 mr-4"
+                              >
+                                <BsPencil size={18} />
+                              </button>
+                              <button
+                                onClick={() => handleDeleteBlogPost(post.id)}
+                                className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300"
+                              >
+                                <BsTrash size={18} />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
