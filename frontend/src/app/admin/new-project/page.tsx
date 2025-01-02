@@ -76,28 +76,32 @@ export default function NewProject() {
     setIsSubmitting(true)
 
     try {
-      // Mevcut projeleri al
-      const existingProjects = JSON.parse(localStorage.getItem('projects') || '[]')
-      
       // Yeni projeyi hazırla
-      const newProject = {
-        id: Date.now(), // Basit bir unique ID
-        createdAt: new Date().toISOString(),
-        ...formData,
-        // File objelerini URL'e çevir
-        thumbnail: formData.thumbnail ? URL.createObjectURL(formData.thumbnail) : null,
-        charts: formData.charts.map(file => URL.createObjectURL(file))
+      const formDataToSend = new FormData()
+      formDataToSend.append('title', formData.title)
+      formDataToSend.append('shortDescription', formData.shortDescription)
+      formDataToSend.append('technologies', formData.technologies)
+      formDataToSend.append('category', formData.category)
+      formDataToSend.append('projectDetails', JSON.stringify(formData.projectDetails))
+      formDataToSend.append('links', JSON.stringify(formData.links))
+
+      if (formData.thumbnail) {
+        formDataToSend.append('thumbnail', formData.thumbnail)
       }
 
-      // Projeyi listeye ekle ve kaydet
-      const updatedProjects = [newProject, ...existingProjects]
-      localStorage.setItem('projects', JSON.stringify(updatedProjects))
+      formData.charts.forEach((chart, index) => {
+        formDataToSend.append(`charts`, chart)
+      })
 
-      // Storage event'i tetikle
-      window.dispatchEvent(new StorageEvent('storage', {
-        key: 'projects',
-        newValue: JSON.stringify(updatedProjects)
-      }))
+      // Backend'e gönder
+      const response = await fetch('http://localhost:5001/api/projects', {
+        method: 'POST',
+        body: formDataToSend
+      })
+
+      if (!response.ok) {
+        throw new Error('Proje kaydedilirken bir hata oluştu')
+      }
 
       // Admin paneline geri dön
       router.push('/admin')
@@ -215,13 +219,31 @@ export default function NewProject() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Problem Tanımı
                 </label>
+                <div className="mb-4 text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                  <p>Aşağıdaki başlıkları detaylı olarak açıklayınız:</p>
+                  <ul className="list-disc pl-5 space-y-1">
+                    <li>Projenin çözdüğü temel problem</li>
+                    <li>Bu problemin önemi ve etkisi</li>
+                    <li>Mevcut çözümlerin eksiklikleri</li>
+                    <li>Hedef kullanıcı kitlesi</li>
+                    <li>Problem hangi sektör veya alanı etkilemektedir</li>
+                  </ul>
+                  <p className="italic mt-2">Formatlamayı aşağıdaki şekilde yapabilirsiniz:</p>
+                  <ul className="list-disc pl-5 space-y-1 text-xs">
+                    <li>Ana başlıklar için: 1. Başlık, 2. Başlık şeklinde numaralandırma</li>
+                    <li>Alt maddeler için: • işareti ile maddeleme</li>
+                    <li>Detaylı açıklamalar için: Normal paragraflar</li>
+                    <li>Önemli noktaları vurgulamak için: **kalın** veya *italik* yazı</li>
+                  </ul>
+                </div>
                 <div data-color-mode="light" className="dark:hidden">
                   <MDEditor
                     value={formData.projectDetails.problem}
                     onChange={(value) => handleInputChange({
                       target: { name: 'projectDetails.problem', value: value || '' }
                     } as any)}
-                    height={200}
+                    height={400}
+                    preview="edit"
                   />
                 </div>
                 <div data-color-mode="dark" className="hidden dark:block">
@@ -230,7 +252,8 @@ export default function NewProject() {
                     onChange={(value) => handleInputChange({
                       target: { name: 'projectDetails.problem', value: value || '' }
                     } as any)}
-                    height={200}
+                    height={400}
+                    preview="edit"
                   />
                 </div>
               </div>
@@ -239,13 +262,31 @@ export default function NewProject() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Çözüm Yaklaşımı
                 </label>
+                <div className="mb-4 text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                  <p>Aşağıdaki başlıkları detaylı olarak açıklayınız:</p>
+                  <ul className="list-disc pl-5 space-y-1">
+                    <li>Geliştirdiğiniz çözümün genel yaklaşımı</li>
+                    <li>Çözümünüzü benzersiz kılan özellikler</li>
+                    <li>Hangi teknolojileri neden seçtiniz</li>
+                    <li>Çözümünüzün ana bileşenleri</li>
+                    <li>Kullanıcılara sağladığınız temel faydalar</li>
+                  </ul>
+                  <p className="italic mt-2">Formatlamayı aşağıdaki şekilde yapabilirsiniz:</p>
+                  <ul className="list-disc pl-5 space-y-1 text-xs">
+                    <li>Ana başlıklar için: 1. Başlık, 2. Başlık şeklinde numaralandırma</li>
+                    <li>Alt maddeler için: • işareti ile maddeleme</li>
+                    <li>Detaylı açıklamalar için: Normal paragraflar</li>
+                    <li>Önemli noktaları vurgulamak için: **kalın** veya *italik* yazı</li>
+                  </ul>
+                </div>
                 <div data-color-mode="light" className="dark:hidden">
                   <MDEditor
                     value={formData.projectDetails.solution}
                     onChange={(value) => handleInputChange({
                       target: { name: 'projectDetails.solution', value: value || '' }
                     } as any)}
-                    height={200}
+                    height={400}
+                    preview="edit"
                   />
                 </div>
                 <div data-color-mode="dark" className="hidden dark:block">
@@ -254,7 +295,8 @@ export default function NewProject() {
                     onChange={(value) => handleInputChange({
                       target: { name: 'projectDetails.solution', value: value || '' }
                     } as any)}
-                    height={200}
+                    height={400}
+                    preview="edit"
                   />
                 </div>
               </div>
@@ -263,13 +305,33 @@ export default function NewProject() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Metodoloji
                 </label>
+                <div className="mb-4 text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                  <p>Aşağıdaki başlıkları detaylı olarak açıklayınız:</p>
+                  <ul className="list-disc pl-5 space-y-1">
+                    <li>Projenin geliştirme aşamaları</li>
+                    <li>Kullanılan teknolojiler ve araçların detaylı açıklaması</li>
+                    <li>Veri toplama ve işleme yöntemleri</li>
+                    <li>Algoritma ve model seçimleri</li>
+                    <li>Karşılaşılan teknik zorluklar ve çözümleri</li>
+                    <li>Sistem mimarisi ve bileşenleri</li>
+                    <li>Test ve doğrulama yöntemleri</li>
+                  </ul>
+                  <p className="italic mt-2">Formatlamayı aşağıdaki şekilde yapabilirsiniz:</p>
+                  <ul className="list-disc pl-5 space-y-1 text-xs">
+                    <li>Ana başlıklar için: 1. Başlık, 2. Başlık şeklinde numaralandırma</li>
+                    <li>Alt maddeler için: • işareti ile maddeleme</li>
+                    <li>Detaylı açıklamalar için: Normal paragraflar</li>
+                    <li>Önemli noktaları vurgulamak için: **kalın** veya *italik* yazı</li>
+                  </ul>
+                </div>
                 <div data-color-mode="light" className="dark:hidden">
                   <MDEditor
                     value={formData.projectDetails.methodology}
                     onChange={(value) => handleInputChange({
                       target: { name: 'projectDetails.methodology', value: value || '' }
                     } as any)}
-                    height={200}
+                    height={400}
+                    preview="edit"
                   />
                 </div>
                 <div data-color-mode="dark" className="hidden dark:block">
@@ -278,7 +340,8 @@ export default function NewProject() {
                     onChange={(value) => handleInputChange({
                       target: { name: 'projectDetails.methodology', value: value || '' }
                     } as any)}
-                    height={200}
+                    height={400}
+                    preview="edit"
                   />
                 </div>
               </div>
@@ -287,13 +350,32 @@ export default function NewProject() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Sonuçlar
                 </label>
+                <div className="mb-4 text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                  <p>Aşağıdaki başlıkları detaylı olarak açıklayınız:</p>
+                  <ul className="list-disc pl-5 space-y-1">
+                    <li>Projenin ölçülebilir sonuçları</li>
+                    <li>Performans metrikleri ve başarı göstergeleri</li>
+                    <li>A/B test sonuçları (varsa)</li>
+                    <li>Kullanıcı geri bildirimleri ve değerlendirmeleri</li>
+                    <li>Projenin etkisi ve katma değeri</li>
+                    <li>İyileştirme önerileri ve gözlemler</li>
+                  </ul>
+                  <p className="italic mt-2">Formatlamayı aşağıdaki şekilde yapabilirsiniz:</p>
+                  <ul className="list-disc pl-5 space-y-1 text-xs">
+                    <li>Ana başlıklar için: 1. Başlık, 2. Başlık şeklinde numaralandırma</li>
+                    <li>Alt maddeler için: • işareti ile maddeleme</li>
+                    <li>Detaylı açıklamalar için: Normal paragraflar</li>
+                    <li>Önemli noktaları vurgulamak için: **kalın** veya *italik* yazı</li>
+                  </ul>
+                </div>
                 <div data-color-mode="light" className="dark:hidden">
                   <MDEditor
                     value={formData.projectDetails.results}
                     onChange={(value) => handleInputChange({
                       target: { name: 'projectDetails.results', value: value || '' }
                     } as any)}
-                    height={200}
+                    height={400}
+                    preview="edit"
                   />
                 </div>
                 <div data-color-mode="dark" className="hidden dark:block">
@@ -302,7 +384,8 @@ export default function NewProject() {
                     onChange={(value) => handleInputChange({
                       target: { name: 'projectDetails.results', value: value || '' }
                     } as any)}
-                    height={200}
+                    height={400}
+                    preview="edit"
                   />
                 </div>
               </div>
@@ -311,13 +394,32 @@ export default function NewProject() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Çıkarımlar ve Sonuç
                 </label>
+                <div className="mb-4 text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                  <p>Aşağıdaki başlıkları detaylı olarak açıklayınız:</p>
+                  <ul className="list-disc pl-5 space-y-1">
+                    <li>Projeden çıkarılan ana dersler</li>
+                    <li>Gelecekte yapılabilecek iyileştirmeler</li>
+                    <li>Potansiyel yeni özellikler ve genişleme planları</li>
+                    <li>Projenin sürdürülebilirliği</li>
+                    <li>Benzer projeler için öneriler</li>
+                    <li>Projenin geleceğe yönelik vizyonu</li>
+                  </ul>
+                  <p className="italic mt-2">Formatlamayı aşağıdaki şekilde yapabilirsiniz:</p>
+                  <ul className="list-disc pl-5 space-y-1 text-xs">
+                    <li>Ana başlıklar için: 1. Başlık, 2. Başlık şeklinde numaralandırma</li>
+                    <li>Alt maddeler için: • işareti ile maddeleme</li>
+                    <li>Detaylı açıklamalar için: Normal paragraflar</li>
+                    <li>Önemli noktaları vurgulamak için: **kalın** veya *italik* yazı</li>
+                  </ul>
+                </div>
                 <div data-color-mode="light" className="dark:hidden">
                   <MDEditor
                     value={formData.projectDetails.conclusions}
                     onChange={(value) => handleInputChange({
                       target: { name: 'projectDetails.conclusions', value: value || '' }
                     } as any)}
-                    height={200}
+                    height={400}
+                    preview="edit"
                   />
                 </div>
                 <div data-color-mode="dark" className="hidden dark:block">
@@ -326,7 +428,8 @@ export default function NewProject() {
                     onChange={(value) => handleInputChange({
                       target: { name: 'projectDetails.conclusions', value: value || '' }
                     } as any)}
-                    height={200}
+                    height={400}
+                    preview="edit"
                   />
                 </div>
               </div>

@@ -14,6 +14,29 @@ interface Project {
   shortDescription: string
   technologies: string
   category: string
+  thumbnail: File | string | null
+  projectDetails: {
+    problem: string
+    solution: string
+    methodology: string
+    results: string
+    conclusions: string
+  }
+  links: {
+    github: string
+    demo: string
+    documentation: string
+  }
+  charts: (File | string)[]
+  createdAt: string
+}
+
+interface ProjectResponse {
+  id: number
+  title: string
+  shortDescription: string
+  technologies: string
+  category: string
   thumbnail: string | null
   projectDetails: {
     problem: string
@@ -39,13 +62,28 @@ export default function EditProject() {
 
   useEffect(() => {
     // Load project data
-    const projects = JSON.parse(localStorage.getItem('projects') || '[]')
-    const project = projects.find((p: Project) => p.id.toString() === params.id)
-    
-    if (project) {
-      setFormData(project)
-    } else {
-      router.push('/admin')
+    const loadProject = async () => {
+      try {
+        const response = await fetch(`http://localhost:5001/api/projects/${params.id}`)
+        if (!response.ok) {
+          throw new Error('Proje yüklenirken bir hata oluştu')
+        }
+        const data: ProjectResponse = await response.json()
+        
+        // Convert response to form data format
+        setFormData({
+          ...data,
+          thumbnail: data.thumbnail,
+          charts: data.charts
+        })
+      } catch (error) {
+        console.error('Error loading project:', error)
+        router.push('/admin')
+      }
+    }
+
+    if (params.id) {
+      loadProject()
     }
   }, [params.id, router])
 
@@ -62,15 +100,18 @@ export default function EditProject() {
 
     if (name.includes('.')) {
       const [section, field] = name.split('.')
-      setFormData(prev => ({
-        ...prev!,
-        [section]: {
-          ...prev![section as keyof typeof prev],
-          [field]: finalValue
+      setFormData(prev => {
+        if (!prev) return prev
+        return {
+          ...prev,
+          [section]: {
+            ...(prev[section as keyof typeof prev] as Record<string, unknown>),
+            [field]: finalValue
+          }
         }
-      }))
+      })
     } else {
-      setFormData(prev => ({ ...prev!, [name]: finalValue }))
+      setFormData(prev => prev ? { ...prev, [name]: finalValue } : prev)
     }
   }
 
@@ -79,17 +120,16 @@ export default function EditProject() {
 
     const files = e.target.files
     if (field === 'charts' && files) {
-      const fileUrls = Array.from(files).map(file => URL.createObjectURL(file))
-      setFormData(prev => ({
-        ...prev!,
+      const fileUrls = Array.from(files)
+      setFormData(prev => prev ? {
+        ...prev,
         charts: fileUrls
-      }))
+      } : prev)
     } else if (field === 'thumbnail' && files?.[0]) {
-      const fileUrl = URL.createObjectURL(files[0])
-      setFormData(prev => ({
-        ...prev!,
-        thumbnail: fileUrl
-      }))
+      setFormData(prev => prev ? {
+        ...prev,
+        thumbnail: files[0]
+      } : prev)
     }
   }
 
@@ -100,16 +140,36 @@ export default function EditProject() {
     setIsSubmitting(true)
 
     try {
-      // Mevcut projeleri al
-      const projects = JSON.parse(localStorage.getItem('projects') || '[]')
-      
-      // Projeyi güncelle
-      const updatedProjects = projects.map((project: Project) => 
-        project.id === formData.id ? formData : project
-      )
+      // Form verilerini hazırla
+      const formDataToSend = new FormData()
+      formDataToSend.append('title', formData.title)
+      formDataToSend.append('shortDescription', formData.shortDescription)
+      formDataToSend.append('technologies', formData.technologies)
+      formDataToSend.append('category', formData.category)
+      formDataToSend.append('projectDetails', JSON.stringify(formData.projectDetails))
+      formDataToSend.append('links', JSON.stringify(formData.links))
 
-      // Değişiklikleri kaydet
-      localStorage.setItem('projects', JSON.stringify(updatedProjects))
+      if (formData.thumbnail && formData.thumbnail instanceof File) {
+        formDataToSend.append('thumbnail', formData.thumbnail)
+      }
+
+      if (formData.charts) {
+        formData.charts.forEach((chart, index) => {
+          if (chart instanceof File) {
+            formDataToSend.append(`charts`, chart)
+          }
+        })
+      }
+
+      // Backend'e gönder
+      const response = await fetch(`http://localhost:5001/api/projects/${params.id}`, {
+        method: 'PUT',
+        body: formDataToSend
+      })
+
+      if (!response.ok) {
+        throw new Error('Proje güncellenirken bir hata oluştu')
+      }
 
       // Admin paneline geri dön
       router.push('/admin')
@@ -247,6 +307,17 @@ export default function EditProject() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Problem Tanımı
                 </label>
+                <div className="mb-4 text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                  <p>Aşağıdaki başlıkları detaylı olarak açıklayınız:</p>
+                  <ul className="list-disc pl-5 space-y-1">
+                    <li>Projenin çözdüğü temel problem</li>
+                    <li>Bu problemin önemi ve etkisi</li>
+                    <li>Mevcut çözümlerin eksiklikleri</li>
+                    <li>Hedef kullanıcı kitlesi</li>
+                    <li>Problem hangi sektör veya alanı etkilemektedir</li>
+                  </ul>
+                  <p className="italic mt-2">Not: Madde işaretleri (•) kullanarak veya numaralandırarak yazabilirsiniz.</p>
+                </div>
                 <div data-color-mode="light" className="dark:hidden">
                   <MDEditor
                     value={formData.projectDetails.problem}
@@ -271,6 +342,17 @@ export default function EditProject() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Çözüm Yaklaşımı
                 </label>
+                <div className="mb-4 text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                  <p>Aşağıdaki başlıkları detaylı olarak açıklayınız:</p>
+                  <ul className="list-disc pl-5 space-y-1">
+                    <li>Geliştirdiğiniz çözümün genel yaklaşımı</li>
+                    <li>Çözümünüzü benzersiz kılan özellikler</li>
+                    <li>Hangi teknolojileri neden seçtiniz</li>
+                    <li>Çözümünüzün ana bileşenleri</li>
+                    <li>Kullanıcılara sağladığınız temel faydalar</li>
+                  </ul>
+                  <p className="italic mt-2">Not: Madde işaretleri (•) kullanarak veya numaralandırarak yazabilirsiniz.</p>
+                </div>
                 <div data-color-mode="light" className="dark:hidden">
                   <MDEditor
                     value={formData.projectDetails.solution}
@@ -295,6 +377,19 @@ export default function EditProject() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Metodoloji
                 </label>
+                <div className="mb-4 text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                  <p>Aşağıdaki başlıkları detaylı olarak açıklayınız:</p>
+                  <ul className="list-disc pl-5 space-y-1">
+                    <li>Projenin geliştirme aşamaları</li>
+                    <li>Kullanılan teknolojiler ve araçların detaylı açıklaması</li>
+                    <li>Veri toplama ve işleme yöntemleri</li>
+                    <li>Algoritma ve model seçimleri</li>
+                    <li>Karşılaşılan teknik zorluklar ve çözümleri</li>
+                    <li>Sistem mimarisi ve bileşenleri</li>
+                    <li>Test ve doğrulama yöntemleri</li>
+                  </ul>
+                  <p className="italic mt-2">Not: Madde işaretleri (•) kullanarak veya numaralandırarak yazabilirsiniz.</p>
+                </div>
                 <div data-color-mode="light" className="dark:hidden">
                   <MDEditor
                     value={formData.projectDetails.methodology}
@@ -319,6 +414,18 @@ export default function EditProject() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Sonuçlar
                 </label>
+                <div className="mb-4 text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                  <p>Aşağıdaki başlıkları detaylı olarak açıklayınız:</p>
+                  <ul className="list-disc pl-5 space-y-1">
+                    <li>Projenin ölçülebilir sonuçları</li>
+                    <li>Performans metrikleri ve başarı göstergeleri</li>
+                    <li>A/B test sonuçları (varsa)</li>
+                    <li>Kullanıcı geri bildirimleri ve değerlendirmeleri</li>
+                    <li>Projenin etkisi ve katma değeri</li>
+                    <li>İyileştirme önerileri ve gözlemler</li>
+                  </ul>
+                  <p className="italic mt-2">Not: Madde işaretleri (•) kullanarak veya numaralandırarak yazabilirsiniz.</p>
+                </div>
                 <div data-color-mode="light" className="dark:hidden">
                   <MDEditor
                     value={formData.projectDetails.results}
@@ -343,6 +450,18 @@ export default function EditProject() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Çıkarımlar ve Sonuç
                 </label>
+                <div className="mb-4 text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                  <p>Aşağıdaki başlıkları detaylı olarak açıklayınız:</p>
+                  <ul className="list-disc pl-5 space-y-1">
+                    <li>Projeden çıkarılan ana dersler</li>
+                    <li>Gelecekte yapılabilecek iyileştirmeler</li>
+                    <li>Potansiyel yeni özellikler ve genişleme planları</li>
+                    <li>Projenin sürdürülebilirliği</li>
+                    <li>Benzer projeler için öneriler</li>
+                    <li>Projenin geleceğe yönelik vizyonu</li>
+                  </ul>
+                  <p className="italic mt-2">Not: Madde işaretleri (•) kullanarak veya numaralandırarak yazabilirsiniz.</p>
+                </div>
                 <div data-color-mode="light" className="dark:hidden">
                   <MDEditor
                     value={formData.projectDetails.conclusions}

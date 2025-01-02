@@ -9,7 +9,7 @@ import { motion } from 'framer-motion'
 import { BsSearch } from 'react-icons/bs'
 
 interface Project {
-  id: number
+  _id: string
   title: string
   shortDescription: string
   technologies: string
@@ -20,29 +20,46 @@ interface Project {
     demo?: string
     documentation?: string
   }
+  projectDetails: {
+    problem: string
+    solution: string
+    methodology: string
+    results: string
+    conclusions: string
+  }
 }
 
-const categories = ['Tümü', 'Veri Bilimi', 'Yapay Zeka', 'Makine Öğrenmesi', 'Derin Öğrenme', 'Veri Analizi']
+const categories = ['Tümü', 'Veri Analizi', 'Veri Bilimi', 'Makine Öğrenmesi', 'Doğal Dil İşleme', 'Öneri Sistemleri']
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([])
   const [selectedCategory, setSelectedCategory] = useState('Tümü')
   const [searchQuery, setSearchQuery] = useState('')
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // localStorage'dan projeleri yükle
-    const savedProjects = JSON.parse(localStorage.getItem('projects') || '[]')
-    setProjects(savedProjects)
-
-    // Storage event listener ekle
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'projects') {
-        setProjects(JSON.parse(e.newValue || '[]'))
+    const fetchProjects = async () => {
+      try {
+        const response = await fetch('http://localhost:5001/api/projects', {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        });
+        if (!response.ok) {
+          throw new Error('Projeler yüklenirken bir hata oluştu')
+        }
+        const data = await response.json()
+        setProjects(data)
+        setIsLoading(false)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Bir hata oluştu')
+        setIsLoading(false)
       }
     }
 
-    window.addEventListener('storage', handleStorageChange)
-    return () => window.removeEventListener('storage', handleStorageChange)
+    fetchProjects()
   }, [])
 
   const filteredProjects = projects.filter(project => {
@@ -53,6 +70,30 @@ export default function ProjectsPage() {
       project.technologies.toLowerCase().includes(searchQuery.toLowerCase())
     return matchesCategory && matchesSearch
   })
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center">
+        <div className="text-center text-red-500">
+          <p>{error}</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Yeniden Dene
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
@@ -118,7 +159,7 @@ export default function ProjectsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProjects.map((project, index) => (
               <motion.div
-                key={project.id}
+                key={project._id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -184,7 +225,7 @@ export default function ProjectsPage() {
                         </Link>
                       )}
                       <Link
-                        href={`/projects/${project.id}`}
+                        href={`/projects/${project._id}`}
                         className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 transition-colors ml-auto group-hover:translate-x-1 transform duration-200"
                       >
                         Detaylar →

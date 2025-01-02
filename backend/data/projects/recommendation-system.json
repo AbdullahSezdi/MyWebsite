@@ -1,0 +1,17 @@
+{
+  "title": "Hibrit Öneri Sistemi Geliştirme",
+  "shortDescription": "E-ticaret platformu için collaborative filtering ve content-based filtering yaklaşımlarını birleştiren hibrit bir öneri sistemi geliştirdim. Deep learning ve matrix factorization tekniklerini kullanarak kişiselleştirilmiş ürün önerileri sunan bir sistem tasarladım.",
+  "category": "Veri Bilimi",
+  "technologies": "Python, TensorFlow, Keras, Pandas, NumPy, FastAPI, Redis, MongoDB",
+  "projectDetails": {
+    "problem": "E-ticaret platformunda ürün önerisi konusunda yaşanan zorluklar:\n\n1. Veri Zorlukları\n• Sparse user-item interaction matrix\n• Cold-start problemi\n• Data sparsity sorunu\n• Veri kalitesi problemleri\n\n2. Ölçeklenebilirlik Sorunları\n• Yüksek computational complexity\n• Memory constraints\n• Real-time öneri zorluğu\n• Batch processing limitleri\n\n3. Performans Problemleri\n• Düşük öneri kalitesi\n• Long-tail ürünlerin önerilememesi\n• Sezonsal değişimlere adaptasyon\n• Popularity bias",
+
+    "solution": "Problemi çözmek için kapsamlı bir hibrit öneri sistemi geliştirdim:\n\n1. Model Mimarisi\n• Neural Collaborative Filtering\n• Deep & Wide Network yapısı\n• Attention mekanizması\n• Multi-task learning framework\n\n2. Feature Engineering\n• User embedding generation\n• Item embedding creation\n• Temporal feature extraction\n• Contextual feature integration\n\n3. Optimization Stratejisi\n• Mini-batch gradient descent\n• Adaptive learning rate\n• Regularization teknikleri\n• Negative sampling",
+
+    "methodology": "Proje beş ana fazda gerçekleştirildi:\n\n1. Veri Hazırlama\n• User-item interaction matrix oluşturma\n• Feature extraction ve engineering\n• Data cleaning ve preprocessing\n• Train-test split stratejisi\n• Validation set creation\n\n2. Model Geliştirme\n• Base model implementation\n• Architecture design\n• Loss function design\n• Training pipeline setup\n• Evaluation framework\n\n3. Training ve Optimizasyon\n• Hyperparameter tuning\n• Model ensemble\n• Cross-validation\n• Performance optimization\n• Memory optimization\n\n4. Evaluation ve Testing\n• Offline metrics calculation\n• Online A/B testing\n• User feedback analysis\n• Error analysis\n• Performance profiling\n\n5. Deployment ve Scaling\n• Model serving setup\n• Caching mechanism\n• Load balancing\n• Monitoring system\n• Auto-scaling configuration",
+
+    "results": "Proje sonucunda elde edilen başarı metrikleri:\n\n1. Offline Metrikler\n• NDCG@10: 0.85\n• Precision@10: 0.78\n• Recall@10: 0.82\n• MAP@10: 0.76\n\n2. Online Metrikler\n• CTR artışı: %35\n• Conversion rate artışı: %25\n• Average order value artışı: %20\n• User engagement artışı: %40\n\n3. Sistem Performansı\n• Latency: 50ms\n• Throughput: 1000 req/sec\n• Cache hit ratio: %85\n• Resource utilization: %70",
+
+    "conclusions": "Proje sonucunda elde edilen çıkarımlar ve gelecek planları:\n\n1. Teknik Insights\n• Hibrit yaklaşım tek başına collaborative/content-based yaklaşımlardan daha iyi\n• Deep learning modelleri traditional yaklaşımlardan üstün\n• Caching stratejisi kritik öneme sahip\n• Real-time feature integration başarıyı artırıyor\n\n2. İş Etkisi\n• Satışlarda anlamlı artış\n• Müşteri memnuniyetinde iyileşme\n• Operasyonel verimlilik\n• Ölçeklenebilir çözüm\n\n3. Gelecek Adımları\n• Multi-objective optimization\n• Reinforcement learning integration\n• Personalization derinleştirme\n• Real-time model updating\n• Explainable AI features\n• Cross-domain recommendations"
+  }
+} 

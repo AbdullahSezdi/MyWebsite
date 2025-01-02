@@ -7,33 +7,49 @@ import Image from 'next/image'
 
 // Yetenekler verisi
 const skills = {
-  'Programlama Dilleri': ['Python', 'JavaScript', 'TypeScript', 'SQL'],
-  'Veri Bilimi': ['Pandas', 'NumPy', 'Scikit-learn', 'TensorFlow', 'PyTorch'],
-  'Web Teknolojileri': ['React', 'Next.js', 'Node.js', 'FastAPI', 'PostgreSQL'],
-  'Araçlar': ['Git', 'Docker', 'AWS', 'Linux', 'Jupyter']
+  'Programlama': ['Python', 'SQL'],
+  'Veri Analizi': ['Statistical Analysis', 'NumPy', 'SciPy', 'A/B Testing', 'Statsmodels', 'Data Mining'],
+  'Makine Öğrenmesi': ['Scikit-learn', 'XGBoost', 'LightGBM', 'Predictive Modeling'],
+  'Veri İşleme': ['Data Cleaning', 'Pandas', 'Feature Engineering', 'Preprocessing'],
+  'Görselleştirme': ['Tableau', 'Matplotlib', 'Seaborn'],
+  'Doğal Dil İşleme': ['NLTK', 'SpaCy'],
+  'Zaman Serileri': ['Statsmodels', 'Prophet'],
+  'Derin Öğrenme': ['TensorFlow', 'Keras']
 }
 
 // Eğitim verisi
 const education = [
   {
-    school: 'X Üniversitesi',
-    degree: 'Bilgisayar Mühendisliği',
-    date: '2019 - 2023',
-    description: 'Yapay zeka ve veri bilimi üzerine uzmanlaşma. 3.85 GPA ile mezun oldum.'
+    school: 'ADNAN MENDERES UNIVERSITY',
+    degree: 'Bachelor of Computer Engineering',
+    date: '2019 - 2024',
+    description: 'GPA: 3.35 / 4.0'
   }
 ]
 
 // İş deneyimi
 const experience = [
   {
-    company: 'Tech Şirketi',
-    position: 'Veri Bilimci',
-    date: '2023 - Günümüz',
-    description: 'Müşteri segmentasyonu ve tahminleme modelleri geliştirme üzerine çalışıyorum.',
+    company: 'Co-CRM',
+    position: 'Data Mining Intern',
+    date: '10/2024 - 11/2024',
+    description: 'Web scraping, data collection and management, tool proficiency in data analysis.',
     achievements: [
-      'Müşteri churn tahminleme modeliyle %25 iyileştirme',
-      'Otomatik raporlama sistemi geliştirme',
-      'A/B test framework implementasyonu'
+      'Developed scripts to extract and organize data from Google searches for over 2,000 Turkish company names',
+      'Gathered key company details with 90% accuracy, ensuring data quality',
+      'Utilized Excel and SQL for efficient data recording and database management',
+      'Applied both manual and automated approaches to address discrepancies in search results'
+    ]
+  },
+  {
+    company: 'Anadolu University',
+    position: 'IT Department Intern',
+    date: '07/2023 - 08/2023',
+    description: 'SQL & data preparation, KPI tracking, and data visualization.',
+    achievements: [
+      'Utilized complex SQL queries to extract, clean, and prepare data for analysis',
+      'Created reports to track university\'s Key Performance Indicators',
+      'Developed KPI-focused interactive dashboards in Tableau for quick data access'
     ]
   }
 ]
@@ -41,14 +57,14 @@ const experience = [
 // Sertifikalar
 const certificates = [
   {
-    name: 'Deep Learning Specialization',
-    issuer: 'Coursera - DeepLearning.AI',
-    date: '2023'
+    name: 'HackerRank SQL Advanced Certificate',
+    issuer: 'HackerRank',
+    date: '2024'
   },
   {
-    name: 'Machine Learning Engineer Nanodegree',
-    issuer: 'Udacity',
-    date: '2022'
+    name: 'Miuul Machine Learning Bootcamp',
+    issuer: 'Miuul',
+    date: '2024'
   }
 ]
 
@@ -100,8 +116,15 @@ export default function About() {
                 Merhaba! 👋
               </h2>
               <p className="text-lg text-gray-600 dark:text-gray-300">
-                Ben bir veri bilimci ve yazılım geliştiriciyim. Yapay zeka ve makine öğrenmesi alanlarında çalışıyor, 
-                karmaşık problemlere veri odaklı çözümler üretiyorum. Sürekli öğrenmeye ve kendimi geliştirmeye odaklanıyorum.
+                Merhaba, ben Abdullah Sezdi. Veri bilimi alanında uzmanlaşmış bir mühendis olarak, karmaşık problemleri 
+                çözmek ve stratejik içgörüler üretmek için verinin gücünü kullanıyorum. Python, SQL, makine öğrenimi ve 
+                zaman serileri analizi gibi alanlarda derinlemesine bilgiye sahibim.
+              </p>
+              <p className="text-lg text-gray-600 dark:text-gray-300 mt-4">
+                Projelerimde, müşteri segmentasyonundan zaman serisi tahminlerine, duygu analizinden fiyat modellemelerine 
+                kadar geniş bir yelpazede çözümler geliştirdim. Amacım, veriyi anlamlı içgörülere dönüştürerek, teknolojiyle 
+                iş dünyasını bir adım öteye taşımak. İleri görüşlü, yaratıcı ve sonuç odaklı bir profesyonel olarak, her 
+                projede fark yaratmaya odaklanıyorum.
               </p>
             </motion.div>
           </div>
