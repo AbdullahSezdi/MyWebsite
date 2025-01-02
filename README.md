@@ -22,3 +22,8 @@ npm install
 # Run the development server
 npm run dev
 ```
+## Social Links
+
+- [LinkedIn](https://linkedin.com/in/abdullahsezdi)
+- [GitHub](https://github.com/AbdullahSezdi)
+
