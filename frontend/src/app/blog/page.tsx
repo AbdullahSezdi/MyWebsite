@@ -1,54 +1,53 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Navbar from '@/components/layout/Navbar'
 import AnimatedSection from '@/components/ui/AnimatedSection'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
 
-// Örnek blog yazıları
-const posts = [
-  {
-    id: 1,
-    title: 'Yapay Zeka ve Veri Biliminin Geleceği',
-    summary: 'Yapay zeka ve veri bilimi alanındaki son gelişmeler ve gelecek trendleri hakkında detaylı bir analiz.',
-    category: 'Yapay Zeka',
-    tags: ['AI', 'Machine Learning', 'Future Tech'],
-    image: '/blog/ai-future.svg',
-    publishDate: '2024-02-20',
-    readTime: '8 dk',
-    slug: 'yapay-zeka-ve-veri-biliminin-gelecegi'
-  },
-  {
-    id: 2,
-    title: 'Python ile Veri Analizi: Pandas ve NumPy',
-    summary: 'Python\'da veri analizi için kullanılan temel kütüphaneler ve pratik örneklerle kullanımları.',
-    category: 'Veri Analizi',
-    tags: ['Python', 'Pandas', 'NumPy'],
-    image: '/blog/python-data-analysis.svg',
-    publishDate: '2024-02-15',
-    readTime: '10 dk',
-    slug: 'python-ile-veri-analizi'
-  },
-  {
-    id: 3,
-    title: 'Deep Learning Modelleri ve Transfer Learning',
-    summary: 'Derin öğrenme modellerinin transfer learning ile eğitilmesi ve pratik uygulamaları.',
-    category: 'Deep Learning',
-    tags: ['Neural Networks', 'Transfer Learning', 'PyTorch'],
-    image: '/blog/deep-learning.svg',
-    publishDate: '2024-02-10',
-    readTime: '12 dk',
-    slug: 'deep-learning-modelleri'
-  }
-]
+interface Blog {
+  _id: string;
+  title: string;
+  summary: string;
+  category: string;
+  tags: string[];
+  image: string;
+  publishDate: string;
+  readTime: string;
+  slug: string;
+}
 
 const categories = ['Tümü', 'Yapay Zeka', 'Veri Analizi', 'Deep Learning', 'Machine Learning']
 
 export default function Blog() {
   const [selectedCategory, setSelectedCategory] = useState('Tümü')
   const [searchQuery, setSearchQuery] = useState('')
+  const [posts, setPosts] = useState<Blog[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blogs`);
+        if (!response.ok) {
+          throw new Error('Blog yazıları yüklenirken bir hata oluştu');
+        }
+        const data = await response.json();
+        setPosts(data);
+        setError(null);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Blog yazıları yüklenirken bir hata oluştu');
+        console.error('Blog yükleme hatası:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
 
   // Filtreleme fonksiyonu
   const filteredPosts = posts.filter(post => {
@@ -58,6 +57,28 @@ export default function Blog() {
                          post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
     return matchesCategory && matchesSearch
   })
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-white dark:bg-gray-900">
+        <Navbar />
+        <div className="flex flex-col items-center justify-center h-[calc(100vh-80px)]">
+          <h2 className="text-2xl font-bold text-red-600 dark:text-red-400 mb-4">
+            Bir şeyler yanlış gitti!
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
+            {error}
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Tekrar Dene
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
@@ -126,52 +147,62 @@ export default function Blog() {
       {/* Blog Posts Grid */}
       <AnimatedSection className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredPosts.map((post, index) => (
-              <motion.div
-                key={post.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
-              >
-                <Link href={`/blog/${post.slug}`} className="block">
-                  <div className="relative h-48 bg-gray-200 dark:bg-gray-700">
-                    <Image
-                      src={post.image}
-                      alt={post.title}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-2">
-                      <span>{post.publishDate}</span>
-                      <span>•</span>
-                      <span>{post.readTime}</span>
+          {filteredPosts.length === 0 ? (
+            <div className="text-center text-gray-500 dark:text-gray-400 py-12">
+              {loading ? 'Blog yazıları yükleniyor...' : 'Henüz blog yazısı bulunmuyor.'}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredPosts.map((post, index) => (
+                <motion.div
+                  key={post._id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
+                >
+                  <Link href={`/blog/${post.slug}`} className="block">
+                    <div className="relative h-48 bg-gray-200 dark:bg-gray-700">
+                      <Image
+                        src={post.image}
+                        alt={post.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = 'https://images.unsplash.com/photo-1633412802994-5c058f151b66';
+                        }}
+                      />
                     </div>
-                    <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                      {post.title}
-                    </h2>
-                    <p className="text-gray-600 dark:text-gray-300 mb-4">
-                      {post.summary}
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {post.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-600 rounded dark:bg-blue-900 dark:text-blue-300"
-                        >
-                          {tag}
-                        </span>
-                      ))}
+                    <div className="p-6">
+                      <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-2">
+                        <span>{new Date(post.publishDate).toLocaleDateString('tr-TR')}</span>
+                        <span>•</span>
+                        <span>{post.readTime}</span>
+                      </div>
+                      <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                        {post.title}
+                      </h2>
+                      <p className="text-gray-600 dark:text-gray-300 mb-4">
+                        {post.summary}
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {post.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-600 rounded dark:bg-blue-900 dark:text-blue-300"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
       </AnimatedSection>
     </div>

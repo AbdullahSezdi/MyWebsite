@@ -3,6 +3,7 @@
   "shortDescription": "Türkiye'deki ev fiyatlarını tahmin etmek için gelişmiş makine öğrenmesi modelleri geliştirdim. XGBoost, LightGBM ve CatBoost modellerini kullanarak ensemble bir yaklaşım oluşturdum ve yüksek doğrulukta fiyat tahminleri elde ettim.",
   "category": "Veri Bilimi",
   "technologies": "Python, Scikit-learn, XGBoost, LightGBM, CatBoost, Pandas, NumPy, Flask",
+  "thumbnail": "/images/projects/house-price.jpg",
   "projectDetails": {
     "problem": "Türkiye'de gayrimenkul sektöründe fiyat tahminlemesi konusunda yaşanan zorluklar:\n\n1. Pazar Dinamikleri\n• Fiyatları etkileyen faktörlerin karmaşıklığı\n• Bölgesel farklılıkların yüksek etkisi\n• Ekonomik değişkenlerin dinamik yapısı\n• Mevsimsel etkilerin varlığı\n\n2. Veri Kalitesi Sorunları\n• Eksik ve tutarsız veriler\n• Yanlış girilen bilgiler\n• Standardize edilmemiş özellikler\n• Aykırı değerlerin fazlalığı\n\n3. Tahminleme Zorlukları\n• Doğrusal olmayan ilişkiler\n• Çok sayıda kategorik değişken\n• Feature interaction'ların karmaşıklığı\n• Temporal dependencies",
 
