@@ -112,42 +112,43 @@ export default function HomePage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* Proje Kartı 1 */}
+              {/* CLTV Prediction Project */}
               <div className="group bg-white dark:bg-gray-800/50 rounded-2xl p-6 shadow-lg backdrop-blur-sm hover:shadow-xl transition-all duration-200">
                 <div className="relative aspect-video rounded-lg overflow-hidden mb-6">
                   <Image
-                    src="/projects/project1.svg"
-                    alt="Proje 1"
+                    src="/images/projects/cltv-prediction.jpg"
+                    alt="CLTV Prediction"
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-200"
                   />
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                  E-Ticaret Platformu
+                  BG/NBD ve Gamma-Gamma ile CLTV Tahmini
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400 mb-4">
-                  Modern bir e-ticaret platformu. Next.js, TailwindCSS ve Stripe entegrasyonu ile geliştirildi.
+                  BG/NBD ve Gamma-Gamma modellerini kullanarak Müşteri Yaşam Boyu Değeri (CLTV) tahmin modeli geliştirdim. Müşterileri segmentlere ayırarak stratejik aksiyonlar önerdim.
                 </p>
                 <div className="flex flex-wrap gap-2 mb-6">
                   <span className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
-                    Next.js
+                    Python
                   </span>
                   <span className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
-                    React
+                    Lifetimes
                   </span>
                   <span className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
-                    TailwindCSS
+                    Flask
                   </span>
                 </div>
                 <div className="flex gap-4">
-                  <a
-                    href="#"
+                  <Link
+                    href="/projects/cltv-prediction"
                     className="flex-1 text-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-lg transition-colors duration-200"
                   >
-                    Canlı Demo
-                  </a>
+                    Detayları Gör
+                  </Link>
                   <a
-                    href="#"
+                    href="https://github.com/abdullahsezdi/cltv-prediction"
+                    target="_blank"
                     className="flex-1 text-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
                   >
                     GitHub
@@ -155,42 +156,43 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Proje Kartı 2 */}
+              {/* Recommendation System Project */}
               <div className="group bg-white dark:bg-gray-800/50 rounded-2xl p-6 shadow-lg backdrop-blur-sm hover:shadow-xl transition-all duration-200">
                 <div className="relative aspect-video rounded-lg overflow-hidden mb-6">
                   <Image
-                    src="/projects/project2.svg"
-                    alt="Proje 2"
+                    src="/images/projects/recommender-system.png"
+                    alt="Recommendation System"
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-200"
                   />
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                  Task Yönetim Uygulaması
+                  Hibrit Öneri Sistemi
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400 mb-4">
-                  Drag & Drop özellikli, gerçek zamanlı task yönetim uygulaması. Firebase ve React ile geliştirildi.
+                  E-ticaret platformu için collaborative filtering ve content-based filtering yaklaşımlarını birleştiren hibrit bir öneri sistemi geliştirdim.
                 </p>
                 <div className="flex flex-wrap gap-2 mb-6">
                   <span className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
-                    React
+                    TensorFlow
                   </span>
                   <span className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
-                    Firebase
+                    FastAPI
                   </span>
                   <span className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
-                    TypeScript
+                    Redis
                   </span>
                 </div>
                 <div className="flex gap-4">
-                  <a
-                    href="#"
+                  <Link
+                    href="/projects/recommendation-system"
                     className="flex-1 text-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-lg transition-colors duration-200"
                   >
-                    Canlı Demo
-                  </a>
+                    Detayları Gör
+                  </Link>
                   <a
-                    href="#"
+                    href="https://github.com/abdullahsezdi/recommendation-system"
+                    target="_blank"
                     className="flex-1 text-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
                   >
                     GitHub
@@ -198,42 +200,43 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Proje Kartı 3 */}
+              {/* Sentiment Analysis Project */}
               <div className="group bg-white dark:bg-gray-800/50 rounded-2xl p-6 shadow-lg backdrop-blur-sm hover:shadow-xl transition-all duration-200">
                 <div className="relative aspect-video rounded-lg overflow-hidden mb-6">
                   <Image
-                    src="/projects/project3.svg"
-                    alt="Proje 3"
+                    src="/images/projects/sentiment-analysis.png"
+                    alt="Sentiment Analysis"
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-200"
                   />
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                  AI Chat Uygulaması
+                  Türkçe Duygu Analizi
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400 mb-4">
-                  OpenAI API kullanarak geliştirilmiş, gerçek zamanlı sohbet uygulaması.
+                  Türkçe metinler için BERT tabanlı duygu analizi modeli geliştirdim. Transfer learning ve fine-tuning teknikleri kullanarak yüksek doğrulukta sınıflandırma yapan bir sistem oluşturdum.
                 </p>
                 <div className="flex flex-wrap gap-2 mb-6">
                   <span className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
-                    Next.js
+                    PyTorch
                   </span>
                   <span className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
-                    OpenAI
+                    BERT
                   </span>
                   <span className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
-                    WebSocket
+                    FastAPI
                   </span>
                 </div>
                 <div className="flex gap-4">
-                  <a
-                    href="#"
+                  <Link
+                    href="/projects/sentiment-analysis"
                     className="flex-1 text-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-lg transition-colors duration-200"
                   >
-                    Canlı Demo
-                  </a>
+                    Detayları Gör
+                  </Link>
                   <a
-                    href="#"
+                    href="https://github.com/abdullahsezdi/sentiment-analysis"
+                    target="_blank"
                     className="flex-1 text-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
                   >
                     GitHub

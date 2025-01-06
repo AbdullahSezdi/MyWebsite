@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const projectRoutes = require('./routes/projectRoutes');
+const blogRoutes = require('./routes/blogRoutes');
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/projects', projectRoutes);
+app.use('/api/blogs', blogRoutes);
 
 // MongoDB bağlantısı
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/portfolio')

@@ -1,17 +1,14 @@
 {
-  "title": "Derin Öğrenme ile Türkçe Duygu Analizi",
-  "shortDescription": "Türkçe metinler için BERT tabanlı duygu analizi modeli geliştirdim. Transfer learning ve fine-tuning teknikleri kullanarak yüksek doğrulukta duygu sınıflandırması yapan bir sistem oluşturdum.",
-  "category": "Veri Bilimi",
-  "technologies": "Python, PyTorch, Transformers, BERT, Pandas, NumPy, FastAPI",
+  "title": "Türkçe Duygu Analizi",
+  "shortDescription": "Türkçe metinler için BERT tabanlı duygu analizi modeli geliştirdim. Transfer learning ve fine-tuning teknikleri kullanarak yüksek doğrulukta sınıflandırma yapan bir sistem oluşturdum.",
+  "category": "Doğal Dil İşleme",
+  "technologies": "PyTorch, BERT, FastAPI",
+  "thumbnail": "/images/projects/sentiment-analysis.jpg",
   "projectDetails": {
-    "problem": "Türkçe metinlerde duygu analizi konusunda karşılaşılan zorluklar:\n\n1. Dil İşleme Zorlukları\n• Türkçe'nin morfolojik zenginliği\n• Deyimler ve mecazi anlatımlar\n• Ağız ve lehçe farklılıkları\n• Yazım hataları ve informal kullanımlar\n\n2. Model Geliştirme Sorunları\n• Etiketli veri eksikliği\n• Pre-trained model yetersizliği\n• Compute resource kısıtları\n• Türkçe NLP tool'larının sınırlılığı\n\n3. Performans Problemleri\n• Düşük doğruluk oranları\n• Yavaş inference süresi\n• Yüksek false positive oranları\n• Context anlama zorlukları",
-
-    "solution": "Problemi çözmek için kapsamlı bir derin öğrenme yaklaşımı geliştirdim:\n\n1. Model Mimarisi\n• BERT-base-turkish fine-tuning\n• Custom attention layer implementasyonu\n• Multi-head self attention mekanizması\n• Bidirectional encoder yapısı\n\n2. Training Stratejisi\n• Progressive learning rate scheduling\n• Gradient accumulation\n• Mixed precision training\n• Curriculum learning yaklaşımı\n\n3. Optimization Teknikleri\n• Layer-wise learning rate decay\n• Weight decay regularization\n• Dropout stratejileri\n• Early stopping mekanizması",
-
-    "methodology": "Proje beş ana aşamada gerçekleştirildi:\n\n1. Veri Toplama ve Hazırlama\n• Sosyal medya verisi toplanması\n• Manuel veri etiketleme\n• Veri augmentation\n• Veri temizleme ve normalizasyon\n• Cross-validation split\n\n2. Model Geliştirme\n• BERT model selection\n• Architecture customization\n• Hyperparameter tuning\n• Training pipeline setup\n• Validation framework\n\n3. Training ve Optimizasyon\n• Batch size optimizasyonu\n• Learning rate scheduling\n• Gradient clipping\n• Loss function selection\n• Model checkpoint stratejisi\n\n4. Evaluation ve Fine-tuning\n• Performance metrics tracking\n• Error analysis\n• Model interpretability\n• Bias detection\n• Robustness testing\n\n5. Deployment ve Monitoring\n• Model quantization\n• API development\n• Performance monitoring\n• A/B testing setup\n• Continuous training",
-
-    "results": "Proje sonucunda elde edilen başarı metrikleri:\n\n1. Model Performans Metrikleri\n• Accuracy: 92.5%\n• F1-Score: 0.91\n• Precision: 0.89\n• Recall: 0.93\n\n2. Operasyonel Metrikler\n• Inference time: 50ms/text\n• Throughput: 20 texts/second\n• Model size: 450MB\n• GPU utilization: 75%\n\n3. Business KPI'ları\n• Manual analiz süresinde %80 azalma\n• Müşteri memnuniyetinde %40 artış\n• Operasyonel maliyetlerde %60 düşüş\n• Real-time analiz kapasitesi",
-
-    "conclusions": "Proje sonucunda elde edilen çıkarımlar ve gelecek planları:\n\n1. Teknik Insights\n• BERT modeli Türkçe'de yüksek performans gösteriyor\n• Custom attention mekanizması başarıyı artırıyor\n• Data augmentation kritik öneme sahip\n• Model quantization minimal performans kaybı yaratıyor\n\n2. İş Etkisi\n• Otomatik sentiment analizi mümkün\n• Scalable ve maintainable çözüm\n• Yüksek doğruluk oranları\n• Cost-effective operasyon\n\n3. Gelecek Adımları\n• Multi-language model desteği\n• Emotion detection eklentisi\n• Aspect-based sentiment analysis\n• Real-time analiz optimizasyonu\n• Active learning implementasyonu\n• AutoML integration"
+    "problem": "Türkçe metinlerde duygu analizi konusunda karşılaşılan zorluklar...",
+    "solution": "BERT tabanlı bir derin öğrenme modeli geliştirerek çözüm sağladım...",
+    "methodology": "Proje beş ana fazda gerçekleştirildi...",
+    "results": "Proje sonucunda elde edilen başarı metrikleri...",
+    "conclusions": "Proje sonuçları ve öğrenimler..."
   }
 } 

@@ -1,0 +1,18 @@
+{
+  "title": "RFM Analizi ile Müşteri Segmentasyonu",
+  "shortDescription": "E-ticaret platformu için RFM (Recency, Frequency, Monetary) analizi kullanarak müşteri segmentasyonu gerçekleştirdim. Müşterileri davranışlarına göre gruplandırarak hedefli pazarlama stratejileri geliştirdim.",
+  "category": "Veri Bilimi",
+  "technologies": "Python, Pandas, Scikit-learn, Seaborn, Matplotlib, Flask",
+  "thumbnail": "/images/projects/rfm-analysis.jpg",
+  "projectDetails": {
+    "problem": "E-ticaret platformunun müşteri segmentasyonu konusunda yaşadığı zorluklar:\n\n1. Segmentasyon Zorlukları\n• Müşteri davranışlarının doğru analiz edilememesi\n• Tek boyutlu segmentasyon yaklaşımının yetersizliği\n• Müşteri değer potansiyelinin ölçülememesi\n• Hedefli pazarlama kampanyalarının verimsizliği\n\n2. Veri Analizi Sorunları\n• Büyük veri setlerinin işlenmesinde yaşanan zorluklar\n• Müşteri davranış örüntülerinin belirlenememesi\n• Zamansal değişimlerin takip edilememesi\n• Segment geçişlerinin izlenememesi",
+
+    "solution": "RFM analizi ile kapsamlı bir müşteri segmentasyonu çözümü geliştirdim:\n\n1. RFM Metriklerinin Hesaplanması\n• Recency: Son alışveriş tarihi analizi\n• Frequency: Alışveriş sıklığı hesaplaması\n• Monetary: Toplam harcama analizi\n\n2. Segmentasyon Modeli\n• K-means clustering ile otomatik segment belirleme\n• Hierarchical clustering ile segment validasyonu\n• Segment profilleri oluşturma\n• Segment geçiş analizi\n\n3. Segment Bazlı Stratejiler\n• Hedefli pazarlama önerileri\n• Segment-spesifik aksiyonlar\n• Müşteri tutundurma stratejileri\n• Cross-sell/up-sell fırsatları",
+
+    "methodology": "Proje dört ana fazda gerçekleştirildi:\n\n1. Veri Hazırlama\n• Veri temizleme ve standardizasyon\n• Feature engineering\n• Outlier analizi\n• Veri normalizasyonu\n\n2. RFM Analizi\n• RFM skorlarının hesaplanması\n• Skor kombinasyonlarının analizi\n• Segment eşik değerlerinin belirlenmesi\n• Segment karakterizasyonu\n\n3. Clustering ve Segmentasyon\n• K-means clustering uygulaması\n• Optimal segment sayısı belirleme\n• Segment profilleri oluşturma\n• Segment geçiş analizi\n\n4. Strateji Geliştirme\n• Segment bazlı aksiyon planları\n• Pazarlama stratejileri\n• Kampanya önerileri\n• ROI analizi",
+
+    "results": "Proje sonucunda elde edilen başarı metrikleri:\n\n1. Segmentasyon Başarısı\n• Silhouette Score: 0.68\n• Segment homojenliği: %85\n• Segment stability: %92\n• Cross-validation accuracy: %88\n\n2. İş Etkisi\n• Kampanya dönüşüm oranlarında %45 artış\n• Müşteri tutundurma oranında %35 iyileşme\n• Marketing ROI'de %50 artış\n• Customer Lifetime Value'da %30 artış\n\n3. Operasyonel İyileştirmeler\n• Pazarlama bütçesi optimizasyonu\n• Hedefli kampanya verimliliği\n• Müşteri memnuniyetinde artış\n• Churn oranlarında azalma",
+
+    "conclusions": "Proje sonuçları ve öğrenimler:\n\n1. Analiz Çıktıları\n• RFM modelinin segmentasyon başarısı\n• Davranış bazlı segmentasyonun önemi\n• Çok boyutlu analiz yaklaşımının değeri\n• Veri odaklı karar almanın etkisi\n\n2. İş Değeri\n• Hedefli pazarlamanın etkinliği\n• Segment bazlı stratejilerin başarısı\n• Müşteri odaklı yaklaşımın önemi\n• ROI optimizasyonu\n\n3. Gelecek Planları\n• Real-time segmentasyon\n• AI/ML entegrasyonu\n• Predictive analytics\n• Automated marketing optimization"
+  }
+} 
