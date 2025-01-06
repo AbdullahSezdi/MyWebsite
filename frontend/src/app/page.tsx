@@ -6,8 +6,43 @@ import { BsGithub, BsLinkedin } from 'react-icons/bs'
 import { HiDownload } from 'react-icons/hi'
 import AnimatedSection from '@/components/ui/AnimatedSection'
 import Navbar from '@/components/layout/Navbar'
+import { useState, useEffect } from 'react'
+
+interface Project {
+  _id: string
+  title: string
+  shortDescription: string
+  technologies: string
+  category: string
+  thumbnail: string | null
+  links: {
+    github?: string
+    demo?: string
+    documentation?: string
+  }
+}
 
 export default function HomePage() {
+  const [featuredProjects, setFeaturedProjects] = useState<Project[]>([])
+
+  useEffect(() => {
+    const fetchFeaturedProjects = async () => {
+      try {
+        const response = await fetch('http://localhost:5001/api/projects')
+        if (!response.ok) {
+          throw new Error('Failed to fetch projects')
+        }
+        const projects = await response.json()
+        // İlk 3 projeyi öne çıkan projeler olarak al
+        setFeaturedProjects(projects.slice(0, 3))
+      } catch (error) {
+        console.error('Error fetching featured projects:', error)
+      }
+    }
+
+    fetchFeaturedProjects()
+  }, [])
+
   return (
     <>
       <Navbar />
@@ -112,137 +147,53 @@ export default function HomePage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* CLTV Prediction Project */}
-              <div className="group bg-white dark:bg-gray-800/50 rounded-2xl p-6 shadow-lg backdrop-blur-sm hover:shadow-xl transition-all duration-200">
-                <div className="relative aspect-video rounded-lg overflow-hidden mb-6">
-                  <Image
-                    src="/images/projects/cltv-prediction.jpg"
-                    alt="CLTV Prediction"
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-200"
-                  />
+              {featuredProjects.map((project) => (
+                <div key={project._id} className="group bg-white dark:bg-gray-800/50 rounded-2xl p-6 shadow-lg backdrop-blur-sm hover:shadow-xl transition-all duration-200">
+                  <div className="relative aspect-video rounded-lg overflow-hidden mb-6">
+                    {project.thumbnail && (
+                      <Image
+                        src={project.thumbnail}
+                        alt={project.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-200"
+                      />
+                    )}
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                    {project.title}
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400 mb-4">
+                    {project.shortDescription}
+                  </p>
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {project.technologies.split(',').map((tech, index) => (
+                      <span
+                        key={index}
+                        className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full"
+                      >
+                        {tech.trim()}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="flex gap-4">
+                    <Link
+                      href={`/projects/${project._id}`}
+                      className="flex-1 text-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-lg transition-colors duration-200"
+                    >
+                      Detayları Gör
+                    </Link>
+                    {project.links.github && (
+                      <a
+                        href={project.links.github}
+                        target="_blank"
+                        className="flex-1 text-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
+                      >
+                        GitHub
+                      </a>
+                    )}
+                  </div>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                  BG/NBD ve Gamma-Gamma ile CLTV Tahmini
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-4">
-                  BG/NBD ve Gamma-Gamma modellerini kullanarak Müşteri Yaşam Boyu Değeri (CLTV) tahmin modeli geliştirdim. Müşterileri segmentlere ayırarak stratejik aksiyonlar önerdim.
-                </p>
-                <div className="flex flex-wrap gap-2 mb-6">
-                  <span className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
-                    Python
-                  </span>
-                  <span className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
-                    Lifetimes
-                  </span>
-                  <span className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
-                    Flask
-                  </span>
-                </div>
-                <div className="flex gap-4">
-                  <Link
-                    href="/projects/cltv-prediction"
-                    className="flex-1 text-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-lg transition-colors duration-200"
-                  >
-                    Detayları Gör
-                  </Link>
-                  <a
-                    href="https://github.com/abdullahsezdi/cltv-prediction"
-                    target="_blank"
-                    className="flex-1 text-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
-                  >
-                    GitHub
-                  </a>
-                </div>
-              </div>
-
-              {/* Recommendation System Project */}
-              <div className="group bg-white dark:bg-gray-800/50 rounded-2xl p-6 shadow-lg backdrop-blur-sm hover:shadow-xl transition-all duration-200">
-                <div className="relative aspect-video rounded-lg overflow-hidden mb-6">
-                  <Image
-                    src="/images/projects/recommender-system.png"
-                    alt="Recommendation System"
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-200"
-                  />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                  Hibrit Öneri Sistemi
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-4">
-                  E-ticaret platformu için collaborative filtering ve content-based filtering yaklaşımlarını birleştiren hibrit bir öneri sistemi geliştirdim.
-                </p>
-                <div className="flex flex-wrap gap-2 mb-6">
-                  <span className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
-                    TensorFlow
-                  </span>
-                  <span className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
-                    FastAPI
-                  </span>
-                  <span className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
-                    Redis
-                  </span>
-                </div>
-                <div className="flex gap-4">
-                  <Link
-                    href="/projects/recommendation-system"
-                    className="flex-1 text-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-lg transition-colors duration-200"
-                  >
-                    Detayları Gör
-                  </Link>
-                  <a
-                    href="https://github.com/abdullahsezdi/recommendation-system"
-                    target="_blank"
-                    className="flex-1 text-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
-                  >
-                    GitHub
-                  </a>
-                </div>
-              </div>
-
-              {/* Sentiment Analysis Project */}
-              <div className="group bg-white dark:bg-gray-800/50 rounded-2xl p-6 shadow-lg backdrop-blur-sm hover:shadow-xl transition-all duration-200">
-                <div className="relative aspect-video rounded-lg overflow-hidden mb-6">
-                  <Image
-                    src="/images/projects/sentiment-analysis.png"
-                    alt="Sentiment Analysis"
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-200"
-                  />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                  Türkçe Duygu Analizi
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-4">
-                  Türkçe metinler için BERT tabanlı duygu analizi modeli geliştirdim. Transfer learning ve fine-tuning teknikleri kullanarak yüksek doğrulukta sınıflandırma yapan bir sistem oluşturdum.
-                </p>
-                <div className="flex flex-wrap gap-2 mb-6">
-                  <span className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
-                    PyTorch
-                  </span>
-                  <span className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
-                    BERT
-                  </span>
-                  <span className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
-                    FastAPI
-                  </span>
-                </div>
-                <div className="flex gap-4">
-                  <Link
-                    href="/projects/sentiment-analysis"
-                    className="flex-1 text-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-lg transition-colors duration-200"
-                  >
-                    Detayları Gör
-                  </Link>
-                  <a
-                    href="https://github.com/abdullahsezdi/sentiment-analysis"
-                    target="_blank"
-                    className="flex-1 text-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
-                  >
-                    GitHub
-                  </a>
-                </div>
-              </div>
+              ))}
             </div>
 
             <div className="text-center mt-12">
