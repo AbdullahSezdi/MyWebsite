@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="#f8f9fa"/>
+  <circle cx="300" cy="200" r="50" fill="#28a745"/>
+  <circle cx="500" cy="400" r="50" fill="#dc3545"/>
+  <line x1="300" y1="200" x2="500" y2="400" stroke="#6c757d" stroke-width="4"/>
+  <text x="250" y="500" font-family="Arial" font-size="48" fill="#343a40">ML</text>
+</svg> 

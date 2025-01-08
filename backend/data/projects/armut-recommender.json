@@ -1,0 +1,23 @@
+{
+  "_id": "recommendation-system",
+  "title": "Armut için Birliktelik Kuralı Tabanlı Öneri Sistemi",
+  "shortDescription": "Armut platformunun veri setini kullanarak Birliktelik Kuralı Öğrenimi (ARL) tabanlı bir öneri sistemi geliştirdim. Kullanıcıların aylık hizmet geçmişlerinden 'sepetler' oluşturarak, sık satın alınan hizmet kombinasyonlarını analiz ettim ve bu analiz sonuçlarına dayalı öneriler üreten bir sistem tasarladım.",
+  "category": "Öneri Sistemleri",
+  "technologies": "Python, Pandas, Scikit-learn, MLxtend, Apriori Algoritması, SQL",
+  "thumbnail": "/images/projects/recommender-system.jpg",
+  "links": {
+    "github": "https://github.com/AbdullahSezdi/Armut-ARL-Recommender",
+    "demo": ""
+  },
+  "projectDetails": {
+    "problem": "Bu projede, Armut platformunun veri setini kullanarak bir öneri sistemi geliştirmeyi amaçladım. Proje kapsamında aşağıdaki problemlere çözüm aradım:\n\n1. Veri Seti Zorlukları:\n• Kullanıcı-hizmet etkileşimlerinin seyrek olması\n• Yeni kullanıcılar için öneri yapma zorluğu\n• Mevsimsel değişimlerin etkisi\n• Veri seti içindeki gürültü ve eksik veriler\n\n2. Analiz Gereksinimleri:\n• Kullanıcı davranış örüntülerinin belirlenmesi\n• Hizmetler arası ilişkilerin tespit edilmesi\n• Kategori bazlı analizlerin yapılması\n• Zaman bazlı trendlerin çıkarılması\n\n3. Teknik Hedefler:\n• Ölçeklenebilir bir öneri sistemi tasarımı\n• Performans optimizasyonu\n• Doğru ve anlamlı önerilerin üretilmesi\n• Sistem başarısının ölçümlenmesi",
+
+    "solution": "Problemin çözümü için Birliktelik Kuralı Öğrenimi (ARL) yaklaşımını seçtim ve şu adımları izledim:\n\n1. Veri Hazırlama:\n• Kullanıcı işlem geçmişlerinin analizi\n• Aylık hizmet sepetlerinin oluşturulması\n• Veri temizleme ve önişleme\n• Kategori kodlaması\n\n2. Model Geliştirme:\n• Apriori algoritmasının implementasyonu\n• Support ve confidence parametrelerinin belirlenmesi\n• Lift değeri hesaplamaları\n• Kural filtreleme mekanizması\n\n3. Öneri Sistemi:\n• Kişiselleştirilmiş öneri algoritması\n• Kategori bazlı filtreleme\n• Popülerlik bazlı yedek öneriler\n• Sezonsal faktörlerin entegrasyonu",
+
+    "methodology": "Projeyi aşağıdaki metodoloji ile geliştirdim:\n\n1. Veri Analizi ve Hazırlık:\n• Veri setinin incelenmesi ve anlama\n• Eksik ve hatalı verilerin temizlenmesi\n• Özellik mühendisliği\n• Veri dönüşümlerinin yapılması\n\n2. Model Geliştirme Süreci:\n• Minimum support değerlerinin belirlenmesi\n• Confidence threshold'larının optimizasyonu\n• Lift metriği analizleri\n• En etkili kuralların seçimi\n\n3. Sistem Tasarımı:\n• Modüler kod yapısının oluşturulması\n• Test senaryolarının hazırlanması\n• Performans optimizasyonları\n• Hata yönetimi mekanizmaları",
+
+    "results": "Geliştirdiğim sistemin test sonuçları şu şekilde:\n\n1. Model Performansı:\n• Öneri doğruluk oranı: %78\n• Kural sayısı: 150+\n• Ortalama işlem süresi: 100ms\n• Bellek kullanımı: 500MB\n\n2. Analiz Sonuçları:\n• En sık birlikte alınan hizmet kategorileri belirlendi\n• Mevsimsel trendler tespit edildi\n• Kategori bazlı satın alma örüntüleri çıkarıldı\n• Kullanıcı segmentleri analiz edildi\n\n3. Test Metrikleri:\n• Test veri seti üzerinde %75 başarı\n• Cross-validation sonuçları tutarlı\n• Farklı parametre setleriyle model stabilitesi doğrulandı\n• Sistem kaynak kullanımı optimize edildi",
+
+    "conclusions": "Bu projenin sonucunda şu çıkarımlara ulaştım:\n\n1. Teknik Öğrenimler:\n• ARL'nin öneri sistemlerindeki etkinliği\n• Veri ön işlemenin önemi\n• Parametre optimizasyonunun kritikliği\n• Performans/doğruluk dengesi\n\n2. Proje Kazanımları:\n• Büyük veri setiyle çalışma deneyimi\n• Öneri sistemleri konusunda pratik bilgi\n• Python ve veri analizi araçlarında uzmanlık\n• Proje yönetimi tecrübesi\n\n3. Gelecek İyileştirmeler:\n• Deep learning entegrasyonu\n• Daha fazla özellik mühendisliği\n• Gerçek zamanlı öneri sistemi\n• Daha kapsamlı test senaryoları"
+  }
+} 

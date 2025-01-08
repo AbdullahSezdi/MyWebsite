@@ -1,6 +1,7 @@
 'use client'
 
 import { useParams } from 'next/navigation'
+import { useState, useEffect } from 'react'
 import Navbar from '@/components/layout/Navbar'
 import AnimatedSection from '@/components/ui/AnimatedSection'
 import { motion } from 'framer-motion'
@@ -11,187 +12,66 @@ import rehypeRaw from 'rehype-raw'
 import rehypeSanitize from 'rehype-sanitize'
 import Image from 'next/image'
 
-// Örnek blog yazıları
-const posts = [
-  {
-    id: 1,
-    title: 'Yapay Zeka ve Veri Biliminin Geleceği',
-    summary: 'Yapay zeka ve veri bilimi alanındaki son gelişmeler ve gelecek trendleri hakkında detaylı bir analiz.',
-    category: 'Yapay Zeka',
-    tags: ['AI', 'Machine Learning', 'Future Tech'],
-    image: '/blog/ai-future.svg',
-    publishDate: '2024-02-20',
-    readTime: '8 dk',
-    slug: 'yapay-zeka-ve-veri-biliminin-gelecegi',
-    content: `
-# Yapay Zeka ve Veri Biliminin Geleceği
-
-Yapay zeka ve veri bilimi alanları son yıllarda muazzam bir gelişme gösterdi. Bu yazıda, önümüzdeki yıllarda bu alanlarda beklenen gelişmeleri ve trendleri inceleyeceğiz.
-
-## 🔍 Öne Çıkan Trendler
-
-### 1. AutoML ve No-Code AI
-
-- Otomatik makine öğrenmesi platformlarının yaygınlaşması
-- Kod yazmadan AI modelleri geliştirme
-- Demokratikleşen yapay zeka
-
-### 2. Edge AI ve IoT Entegrasyonu
-
-- Uç cihazlarda AI işleme
-- Düşük güç tüketimi
-- Gerçek zamanlı işleme kapasitesi
-
-### 3. Açıklanabilir AI (XAI)
-
-- Model kararlarının şeffaflığı
-- Etik AI gelişimi
-- Regülasyonlara uyum
-
-## 💡 Yeni Teknolojiler
-
-\`\`\`python
-# Gelecekte yaygınlaşacak bir XAI örneği
-from explainable_ai import LIMEExplainer
-
-def explain_model_decision(model, input_data):
-    explainer = LIMEExplainer(model)
-    explanation = explainer.explain(input_data)
-    return explanation.feature_importance
-\`\`\`
-
-## 📊 İstatistikler ve Tahminler
-
-1. **Market Büyüklüğü**
-   - 2025'te global AI market büyüklüğü: $190 milyar
-   - Yıllık büyüme oranı: %35
-   - En hızlı büyüyen sektörler: Sağlık, Finans, Otomotiv
-
-2. **Yeni İş Alanları**
-   - AI Ethics Officer
-   - Machine Learning Operations Engineer
-   - Data Science Team Lead
-   - AI Product Manager
-
-## 🎯 Sonuç
-
-Yapay zeka ve veri bilimi alanları hızla evrilmeye devam ediyor. Başarılı olmak için sürekli öğrenme ve adaptasyon kritik önem taşıyor.
-
-## 🔗 Faydalı Kaynaklar
-
-- [AI Trend Report 2024](https://example.com)
-- [Future of Data Science](https://example.com)
-- [Machine Learning Roadmap](https://example.com)
-`
-  },
-  {
-    id: 2,
-    title: 'Python ile Veri Analizi: Pandas ve NumPy',
-    summary: 'Python\'da veri analizi için kullanılan temel kütüphaneler ve pratik örneklerle kullanımları.',
-    category: 'Veri Analizi',
-    tags: ['Python', 'Pandas', 'NumPy'],
-    image: '/blog/python-data-analysis.svg',
-    publishDate: '2024-02-15',
-    readTime: '10 dk',
-    slug: 'python-ile-veri-analizi',
-    content: `
-# Python ile Veri Analizi: Pandas ve NumPy
-
-Python'da veri analizi için en çok kullanılan kütüphaneler Pandas ve NumPy'dır. Bu yazıda, bu kütüphanelerin temel kullanımlarını ve pratik örneklerini inceleyeceğiz.
-
-## 📊 Pandas ile Veri Manipülasyonu
-
-### DataFrame Oluşturma ve Temel İşlemler
-
-\`\`\`python
-import pandas as pd
-
-# Veri seti oluşturma
-data = {
-    'isim': ['Ali', 'Ayşe', 'Mehmet'],
-    'yaş': [25, 30, 35],
-    'şehir': ['İstanbul', 'Ankara', 'İzmir']
+interface BlogPost {
+  _id: string;
+  title: string;
+  content: string;
+  category: string;
+  tags: string[];
+  image: string;
+  publishDate: string;
+  readTime: string;
 }
-
-df = pd.DataFrame(data)
-print(df.head())
-\`\`\`
-
-### Veri Analizi
-
-\`\`\`python
-# Temel istatistikler
-print(df.describe())
-
-# Gruplama ve agregasyon
-df.groupby('şehir')['yaş'].mean()
-\`\`\`
-
-## 🔢 NumPy ile Sayısal İşlemler
-
-### Array İşlemleri
-
-\`\`\`python
-import numpy as np
-
-# Array oluşturma
-arr = np.array([1, 2, 3, 4, 5])
-print(arr * 2)  # Vektörel çarpım
-
-# Matris işlemleri
-matrix = arr.reshape(5, 1)
-print(matrix.T @ matrix)  # Matris çarpımı
-\`\`\`
-
-## 📈 Veri Görselleştirme
-
-\`\`\`python
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-# Veri görselleştirme
-plt.figure(figsize=(10, 6))
-sns.scatterplot(data=df, x='yaş', y='maaş')
-plt.title('Yaş-Maaş İlişkisi')
-plt.show()
-\`\`\`
-
-## 🎯 Örnek Proje: Satış Analizi
-
-\`\`\`python
-# Satış verilerini okuma
-sales_df = pd.read_csv('sales.csv')
-
-# Aylık satış analizi
-monthly_sales = sales_df.groupby('ay')['miktar'].sum()
-
-# Sonuçları görselleştirme
-plt.figure(figsize=(12, 6))
-monthly_sales.plot(kind='bar')
-plt.title('Aylık Satış Miktarları')
-plt.show()
-\`\`\`
-
-## 🔗 Faydalı Kaynaklar
-
-- [Pandas Documentation](https://pandas.pydata.org/docs/)
-- [NumPy User Guide](https://numpy.org/doc/stable/user/)
-- [Python Data Science Handbook](https://jakevdp.github.io/PythonDataScienceHandbook/)
-`
-  }
-]
 
 export default function BlogPost() {
   const params = useParams()
-  const post = posts.find(p => p.slug === params.slug)
+  const [post, setPost] = useState<BlogPost | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  if (!post) {
+  useEffect(() => {
+    const fetchBlogPost = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blogs/${params.slug}`);
+        if (!response.ok) {
+          throw new Error('Blog yazısı yüklenirken bir hata oluştu');
+        }
+        const data = await response.json();
+        setPost(data);
+        setError(null);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Blog yazısı yüklenirken bir hata oluştu');
+        console.error('Blog yükleme hatası:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (params.slug) {
+      fetchBlogPost();
+    }
+  }, [params.slug]);
+
+  if (loading) {
     return (
       <div className="min-h-screen bg-white dark:bg-gray-900">
         <Navbar />
         <div className="pt-24 px-4 text-center">
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-            Yazı bulunamadı
+            Yükleniyor...
+          </h1>
+        </div>
+      </div>
+    )
+  }
+
+  if (error || !post) {
+    return (
+      <div className="min-h-screen bg-white dark:bg-gray-900">
+        <Navbar />
+        <div className="pt-24 px-4 text-center">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            {error || 'Yazı bulunamadı'}
           </h1>
           <Link href="/blog" className="text-blue-600 hover:text-blue-700 dark:text-blue-400 mt-4 inline-block">
             Blog'a Dön
@@ -237,9 +117,9 @@ export default function BlogPost() {
               transition={{ delay: 0.3 }}
               className="mt-4 flex items-center justify-center gap-4 text-sm text-gray-500 dark:text-gray-400"
             >
-              <span>{post.publishDate}</span>
+              <span>{new Date(post.publishDate).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
               <span>•</span>
-              <span>{post.readTime}</span>
+              <span>{post.readTime} dk okuma</span>
             </motion.div>
           </div>
         </div>
@@ -254,14 +134,20 @@ export default function BlogPost() {
             animate={{ opacity: 1, y: 0 }}
             className="relative aspect-video bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden mb-8"
           >
-            <Image
-              src={post.image}
-              alt={post.title}
-              fill
-              className="object-contain p-8"
-              sizes="(max-width: 1536px) 100vw, 1536px"
-              priority
-            />
+            {post.image && (
+              <Image
+                src={post.image}
+                alt={post.title}
+                fill
+                className="object-contain p-8"
+                sizes="(max-width: 1536px) 100vw, 1536px"
+                priority
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = '/images/blog/default.svg';
+                }}
+              />
+            )}
           </motion.div>
 
           {/* Post Content */}

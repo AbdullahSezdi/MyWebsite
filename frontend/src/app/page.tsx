@@ -9,12 +9,12 @@ import Navbar from '@/components/layout/Navbar'
 import { useState, useEffect } from 'react'
 
 interface Project {
-  _id: string
+  slug: string
   title: string
-  shortDescription: string
+  summary: string
   technologies: string
   category: string
-  thumbnail: string | null
+  image: string | null
   links: {
     github?: string
     demo?: string
@@ -22,29 +22,54 @@ interface Project {
   }
 }
 
+interface BlogPost {
+  slug: string
+  title: string
+  summary: string
+  category: string
+  readTime: string
+  publishDate: string
+  image: string
+}
+
 export default function HomePage() {
   const [featuredProjects, setFeaturedProjects] = useState<Project[]>([])
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
 
   useEffect(() => {
-    const fetchFeaturedProjects = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:5001/api/projects', {
+        // Projeleri getir
+        const projectsResponse = await fetch('http://localhost:5001/api/projects', {
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           }
         });
-        if (!response.ok) {
+        if (!projectsResponse.ok) {
           throw new Error('Failed to fetch projects');
         }
-        const projects = await response.json();
+        const projects = await projectsResponse.json();
         setFeaturedProjects(projects.slice(0, 3));
+
+        // Blog yazılarını getir
+        const blogsResponse = await fetch('http://localhost:5001/api/blogs', {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        });
+        if (!blogsResponse.ok) {
+          throw new Error('Failed to fetch blog posts');
+        }
+        const blogs = await blogsResponse.json();
+        setBlogPosts(blogs);
       } catch (error) {
-        console.error('Error fetching featured projects:', error);
+        console.error('Error fetching data:', error);
       }
     };
 
-    fetchFeaturedProjects();
+    fetchData();
   }, [])
 
   return (
@@ -154,11 +179,11 @@ export default function HomePage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {featuredProjects.map((project) => (
-                <div key={project._id} className="group bg-white dark:bg-gray-800/50 rounded-2xl p-6 shadow-lg backdrop-blur-sm hover:shadow-xl transition-all duration-200">
+                <div key={project.slug} className="group bg-white dark:bg-gray-800/50 rounded-2xl p-6 shadow-lg backdrop-blur-sm hover:shadow-xl transition-all duration-200">
                   <div className="relative aspect-video rounded-lg overflow-hidden mb-6">
-                    {project.thumbnail && (
+                    {project.image && (
                       <Image
-                        src={project.thumbnail}
+                        src={project.image}
                         alt={project.title}
                         fill
                         className="object-cover group-hover:scale-105 transition-transform duration-200"
@@ -169,12 +194,12 @@ export default function HomePage() {
                     {project.title}
                   </h3>
                   <p className="text-gray-600 dark:text-gray-400 mb-4">
-                    {project.shortDescription}
+                    {project.summary}
                   </p>
                   <div className="flex flex-wrap gap-2 mb-6">
                     {project.technologies.split(',').map((tech, index) => (
                       <span
-                        key={index}
+                        key={`${project.slug}-${tech.trim()}`}
                         className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full"
                       >
                         {tech.trim()}
@@ -203,7 +228,7 @@ export default function HomePage() {
                       </a>
                     )}
                     <Link
-                      href={`/projects/${project._id}`}
+                      href={`/projects/${project.slug}`}
                       className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 transition-colors ml-auto group-hover:translate-x-1 transform duration-200"
                     >
                       Detaylar →
@@ -237,119 +262,50 @@ export default function HomePage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* Blog Kartı 1 */}
-              <div className="group bg-white dark:bg-gray-800/50 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-200">
-                <div className="relative aspect-[16/9] overflow-hidden">
-                  <Image
-                    src="/blog/machine-learning.svg"
-                    alt="Makine Öğrenmesi Blog"
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-200"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  <span className="absolute bottom-4 left-4 text-white bg-blue-500/80 px-3 py-1 rounded-full text-sm backdrop-blur-sm">
-                    Yapay Zeka
-                  </span>
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-3">
-                    <span>12 Nisan 2024</span>
-                    <span>•</span>
-                    <span>5 dk okuma</span>
+              {blogPosts.map((post) => (
+                <div key={post.slug} className="group bg-white dark:bg-gray-800/50 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-200">
+                  <div className="relative aspect-[16/9] overflow-hidden">
+                    {post.image && (
+                      <Image
+                        src={post.image}
+                        alt={post.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-200"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = '/images/blog/default.svg';
+                        }}
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    <span className="absolute bottom-4 left-4 text-white bg-blue-500/80 px-3 py-1 rounded-full text-sm backdrop-blur-sm">
+                      {post.category}
+                    </span>
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">
-                    Derin Öğrenme Modellerinin Optimizasyonu
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
-                    Derin öğrenme modellerinin eğitim sürecini hızlandırmak ve performansını artırmak için kullanabileceğiniz optimizasyon teknikleri.
-                  </p>
-                  <Link
-                    href="/blog/derin-ogrenme-optimizasyonu"
-                    className="inline-flex items-center text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
-                  >
-                    Devamını Oku
-                    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </Link>
-                </div>
-              </div>
-
-              {/* Blog Kartı 2 */}
-              <div className="group bg-white dark:bg-gray-800/50 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-200">
-                <div className="relative aspect-[16/9] overflow-hidden">
-                  <Image
-                    src="/blog/data-science.svg"
-                    alt="Veri Bilimi Blog"
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-200"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  <span className="absolute bottom-4 left-4 text-white bg-blue-500/80 px-3 py-1 rounded-full text-sm backdrop-blur-sm">
-                    Veri Bilimi
-                  </span>
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-3">
-                    <span>10 Nisan 2024</span>
-                    <span>•</span>
-                    <span>4 dk okuma</span>
+                  <div className="p-6">
+                    <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-3">
+                      <span>{new Date(post.publishDate).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                      <span>•</span>
+                      <span>{post.readTime} dk okuma</span>
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">
+                      {post.title}
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+                      {post.summary}
+                    </p>
+                    <Link
+                      href={`/blog/${post.slug}`}
+                      className="inline-flex items-center text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
+                    >
+                      Devamını Oku
+                      <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </Link>
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">
-                    Büyük Veri Analizinde Pandas İpuçları
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
-                    Pandas kütüphanesi ile büyük veri setlerini daha etkili bir şekilde işlemek için kullanabileceğiniz ileri düzey teknikler.
-                  </p>
-                  <Link
-                    href="/blog/pandas-ipuclari"
-                    className="inline-flex items-center text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
-                  >
-                    Devamını Oku
-                    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </Link>
                 </div>
-              </div>
-
-              {/* Blog Kartı 3 */}
-              <div className="group bg-white dark:bg-gray-800/50 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-200">
-                <div className="relative aspect-[16/9] overflow-hidden">
-                  <Image
-                    src="/blog/cloud-computing.svg"
-                    alt="Cloud Computing Blog"
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-200"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  <span className="absolute bottom-4 left-4 text-white bg-blue-500/80 px-3 py-1 rounded-full text-sm backdrop-blur-sm">
-                    Cloud Computing
-                  </span>
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-3">
-                    <span>8 Nisan 2024</span>
-                    <span>•</span>
-                    <span>6 dk okuma</span>
-                  </div>
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">
-                    AWS SageMaker ile Model Deployment
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
-                    AWS SageMaker kullanarak makine öğrenmesi modellerinizi production ortamına nasıl deploy edebileceğinizi öğrenin.
-                  </p>
-                  <Link
-                    href="/blog/sagemaker-deployment"
-                    className="inline-flex items-center text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
-                  >
-                    Devamını Oku
-                    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </Link>
-                </div>
-              </div>
+              ))}
             </div>
 
             <div className="text-center mt-12">
