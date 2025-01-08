@@ -96,13 +96,13 @@ export default function About() {
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
-              className="w-48 h-48 relative rounded-full overflow-hidden"
+              className="w-64 h-64 relative rounded-full overflow-hidden"
             >
               <Image
-                src="/profile.svg"
+                src="/images/profile.png"
                 alt="Profil Fotoğrafı"
                 fill
-                className="object-contain p-4"
+                className="object-cover"
                 priority
               />
             </motion.div>

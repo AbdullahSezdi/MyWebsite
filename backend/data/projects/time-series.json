@@ -1,4 +1,5 @@
 {
+  "_id": "time-series",
   "title": "Zaman Serisi Analizi ile Satış Tahmini",
   "shortDescription": "Perakende şirketi için gelişmiş zaman serisi modelleri kullanarak satış tahminlemesi yaptım. SARIMA, Prophet ve LSTM modellerini kullanarak yüksek doğrulukta satış öngörüleri oluşturdum.",
   "category": "Veri Bilimi",
@@ -11,8 +12,8 @@
 
     "methodology": "Proje beş ana fazda gerçekleştirildi:\n\n1. Veri Hazırlama\n• Time series decomposition\n• Seasonality analysis\n• Trend analysis\n• Anomaly detection\n\n2. Model Geliştirme\n• SARIMA model implementation\n• Prophet model customization\n• LSTM architecture design\n• Ensemble model integration\n\n3. Feature Engineering\n• Time-based features\n• Lagged variables\n• Rolling statistics\n• External variables\n\n4. Model Training ve Optimizasyon\n• Cross-validation strategy\n• Hyperparameter optimization\n• Model selection\n• Ensemble weights optimization\n\n5. Deployment ve Monitoring\n• API development\n• Batch prediction system\n• Performance monitoring\n• Automated retraining",
 
-    "results": "Proje sonucunda elde edilen başarı metrikleri:\n\n1. Tahmin Performansı\n• MAPE: 8.5% (baseline: 15%)\n• RMSE: 125 units (baseline: 245)\n• MAE: 98 units (baseline: 180)\n• R²: 0.92 (baseline: 0.85)\n\n2. Operasyonel İyileştirmeler\n• Stok maliyetlerinde %25 azalma\n• Satış tahmin süresinde %80 azalma\n• İş gücü verimliliğinde %60 artış\n• Stok devir hızında %30 iyileşme\n\n3. İş Etkisi\n• Revenue artışı: %15\n• Stok maliyeti düşüşü: %20\n• Customer satisfaction artışı: %25\n• Operasyonel verimlilik: %40",
+    "results": "Geliştirdiğim zaman serisi modeli üzerinde yaptığım test sonuçları:\n\nModel Performansı:\n• Test veri setinde %91 doğruluk oranı elde ettim\n• Sezonsal değişimleri başarıyla tespit edebildim\n• Trend tahminlerinde tutarlı sonuçlar aldım\n\nSistem Testleri:\n• Modeller hızlı ve verimli çalıştı\n• Test senaryolarında kararlı performans\n• Farklı veri setlerinde tutarlı sonuçlar\n\nÖğrenme Çıktıları:\n• Zaman serisi analizi pratiği kazandım\n• Farklı tahmin modellerini karşılaştırdım\n• Model optimizasyonu deneyimi edindim",
 
-    "conclusions": "Proje sonuçları ve öğrenimler:\n\n1. Model Insights\n• Ensemble yaklaşımının üstünlüğü\n• Feature engineering'in önemi\n• Automated pipeline değeri\n• Real-time adaptation gerekliliği\n\n2. İş Değeri\n• Veri odaklı karar almanın etkisi\n• Otomatize süreçlerin verimliliği\n• Proaktif stok yönetiminin önemi\n• Maliyet optimizasyonu başarısı\n\n3. Gelecek Planları\n• Deep learning model entegrasyonu\n• Real-time prediction sistemi\n• Automated feature selection\n• Multi-store forecasting"
+    "conclusions": "Bu proje ile elde ettiğim kazanımlar:\n\nTemel Öğrenimler:\n• Zaman serisi analizi teknikleri\n• Ensemble modelleme yaklaşımları\n• Veri bilimi proje geliştirme\n\nTeknik Gelişim:\n• SARIMA, Prophet ve LSTM modelleri\n• Python ve analiz kütüphaneleri\n• Veri görselleştirme teknikleri\n\nGelecek Hedeflerim:\n• Derin öğrenme modellerinde uzmanlaşma\n• Daha karmaşık tahmin sistemleri\n• Gerçek dünya uygulamaları geliştirme"
   }
 } 

@@ -1,0 +1,19 @@
+{
+  "_id": "house-price",
+  "title": "Makine Öğrenmesi ile Ev Fiyat Tahmini",
+  "shortDescription": "Ames, Iowa'daki konut fiyatlarını tahmin etmek için XGBoost ve Random Forest kullanarak gelişmiş bir regresyon modeli geliştirdim. 79 açıklayıcı değişken içeren veri setinde kapsamlı feature engineering uygulayarak yüksek doğrulukta tahminler elde ettim.",
+  "category": "Veri Bilimi",
+  "technologies": "Python, XGBoost, Random Forest, Pandas, Scikit-learn, Feature Engineering",
+  "thumbnail": "/images/projects/house-price.jpg",
+  "projectDetails": {
+    "problem": "Ames, Iowa'daki konut piyasasında, ev fiyatlarının doğru tahmin edilmesi hem alıcılar hem de satıcılar için kritik öneme sahip bir konudur. Bu projede, 79 farklı özellik üzerinden ev fiyatlarını tahmin eden bir model geliştirmeyi hedefledim. Projenin temel zorlukları şunlardı:\n\n• Veri Karmaşıklığı: Çok sayıda kategorik ve sayısal değişkenin bir arada bulunması, eksik veriler ve değişkenler arası karmaşık ilişkiler\n\n• Feature Engineering: Kategorik değişkenlerin dönüştürülmesi, değişken normalizasyonu ve feature selection ihtiyacı\n\n• Model Geliştirme: Doğrusal olmayan ilişkilerin modellenmesi ve overfitting riskinin yönetilmesi",
+
+    "solution": "Problemi çözmek için kapsamlı bir makine öğrenmesi yaklaşımı geliştirdim. Çözüm stratejim şu adımları içeriyordu:\n\n1. Veri Ön İşleme\n• Eksik değerlerin analizi ve uygun stratejilerle doldurulması\n• Aykırı değerlerin tespiti ve işlenmesi\n• Kategorik değişkenlerin dönüştürülmesi\n\n2. Feature Engineering\n• One-hot encoding uygulamaları\n• Değişken normalizasyonu\n• Yeni özellik türetme ve seçimi\n\n3. Model Geliştirme\n• XGBoost ve Random Forest modellerinin implementasyonu\n• Hyperparameter optimizasyonu\n• Ensemble model entegrasyonu",
+
+    "methodology": "Proje sürecinde sistematik bir yaklaşım izledim. Başlangıçta veri setini derinlemesine analiz ederek, değişkenler arasındaki ilişkileri ve veri kalitesini değerlendirdim. Metodolojim şu aşamalardan oluştu:\n\n1. Veri Analizi\n• Değişken ilişkilerinin incelenmesi\n• Veri kalitesi değerlendirmesi\n• İstatistiksel analizler\n\n2. Model Geliştirme\n• Cross-validation testleri\n• Hyperparameter tuning\n• Model ensemble stratejisi\n\n3. Performans İyileştirme\n• Feature importance analizi\n• Model optimizasyonu\n• Tahmin doğruluğu değerlendirmesi",
+
+    "results": "Geliştirdiğim model, test veri seti üzerinde etkileyici sonuçlar üretti:\n\nModel Performansı:\n• Yüksek tahmin doğruluğu\n• Farklı fiyat aralıklarında tutarlı sonuçlar\n• Güçlü genelleme yeteneği\n\nTeknik Başarılar:\n• Hızlı tahmin üretimi\n• Verimli kaynak kullanımı\n• Ölçeklenebilir sistem mimarisi\n\nİçgörüler:\n• Ev fiyatını etkileyen kritik faktörlerin tespiti\n• Piyasa dinamiklerinin daha iyi anlaşılması\n• Değer tahmininde önemli parametrelerin belirlenmesi",
+
+    "conclusions": "Bu proje sürecinde elde ettiğim kazanımlar:\n\nTeknik Yetkinlikler:\n• XGBoost ve Random Forest modellerinde uzmanlık\n• Feature engineering ve model optimizasyonu deneyimi\n• Veri analizi ve görselleştirme becerileri\n\nÖğrenme Çıktıları:\n• Regresyon problemlerinde pratik deneyim\n• Makine öğrenmesi pipeline geliştirme\n• Model değerlendirme ve iyileştirme teknikleri\n\nGelecek Hedeflerim:\n• Derin öğrenme modellerini keşfetme\n• Daha karmaşık tahmin sistemleri geliştirme\n• Farklı sektörlerde benzer projeler üretme"
+  }
+} 

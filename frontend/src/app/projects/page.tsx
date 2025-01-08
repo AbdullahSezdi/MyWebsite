@@ -50,8 +50,9 @@ export default function ProjectsPage() {
         if (!response.ok) {
           throw new Error('Projeler yüklenirken bir hata oluştu')
         }
-        const data = await response.json()
-        setProjects(data)
+        const data = await response.json() as Project[]
+        const uniqueProjects = Array.from(new Map(data.map((project: Project) => [project._id, project])).values())
+        setProjects(uniqueProjects as Project[])
         setIsLoading(false)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Bir hata oluştu')
@@ -64,12 +65,11 @@ export default function ProjectsPage() {
 
   const filteredProjects = projects.filter(project => {
     const matchesCategory = selectedCategory === 'Tümü' || project.category === selectedCategory
-    const matchesSearch = 
-      project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      project.shortDescription.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      project.technologies.toLowerCase().includes(searchQuery.toLowerCase())
+    const matchesSearch = project.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         project.shortDescription?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         project.technologies?.toLowerCase().includes(searchQuery.toLowerCase())
     return matchesCategory && matchesSearch
-  })
+  }).sort((a, b) => a.title.localeCompare(b.title))
 
   if (isLoading) {
     return (
@@ -159,7 +159,7 @@ export default function ProjectsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProjects.map((project, index) => (
               <motion.div
-                key={project._id}
+                key={project._id || `project-${index}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -193,9 +193,9 @@ export default function ProjectsPage() {
 
                   <div className="space-y-2">
                     <div className="flex flex-wrap gap-2">
-                      {project.technologies.split(',').map((tech, index) => (
+                      {project.technologies.split(',').map((tech) => (
                         <span
-                          key={index}
+                          key={`${project._id || `project-${index}`}-${tech.trim()}`}
                           className="px-2 py-1 text-xs font-medium bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 rounded"
                         >
                           {tech.trim()}
@@ -204,7 +204,7 @@ export default function ProjectsPage() {
                     </div>
 
                     <div className="flex items-center space-x-4 mt-4">
-                      {project.links.github && (
+                      {project.links?.github && (
                         <Link
                           href={project.links.github}
                           target="_blank"
@@ -214,7 +214,7 @@ export default function ProjectsPage() {
                           GitHub
                         </Link>
                       )}
-                      {project.links.demo && (
+                      {project.links?.demo && (
                         <Link
                           href={project.links.demo}
                           target="_blank"

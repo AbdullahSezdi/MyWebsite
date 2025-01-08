@@ -28,5 +28,5 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/portfolio
 // Server'ı başlat
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
-  console.log(`Server ${PORT} portunda çalışıyor`);
+  console.log(`Server ${PORT} portunda çalışıyor (HTTP)`);
 }); 

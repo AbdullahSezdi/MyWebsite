@@ -136,7 +136,7 @@ export default function ProjectDetailPage() {
                   </div>
 
                   <div className="flex items-center gap-3">
-                    {project?.links.github && (
+                    {project?.links?.github && (
                       <Link
                         href={project.links.github}
                         target="_blank"
@@ -147,7 +147,7 @@ export default function ProjectDetailPage() {
                         <span>GitHub Repo</span>
                       </Link>
                     )}
-                    {project?.links.demo && (
+                    {project?.links?.demo && (
                       <Link
                         href={project.links.demo}
                         target="_blank"
@@ -182,32 +182,83 @@ export default function ProjectDetailPage() {
                       </div>
                     </div>
                     <div className="prose prose-lg dark:prose-invert max-w-none">
-                      {project?.projectDetails.problem.split('\n').map((paragraph, index) => {
-                        if (paragraph.startsWith('•')) {
+                      {project?.projectDetails?.problem?.split('\n').map((paragraph, index) => {
+                        if (!paragraph?.trim()) return null;
+                        
+                        if (paragraph.includes('•')) {
                           return (
-                            <div key={index} className="flex items-start space-x-3 mb-2">
-                              <span className="mt-2 w-1.5 h-1.5 rounded-full bg-blue-500 flex-shrink-0" />
-                              <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-base">
-                                {paragraph.substring(1).trim()}
+                            <div key={index} className="flex items-start gap-3 mb-2 pl-1">
+                              <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-blue-500 mt-[0.6rem]" />
+                              <p className="flex-1 text-gray-600 dark:text-gray-300 text-base leading-relaxed -mt-0.5">
+                                {paragraph.replace('•', '').trim()}
                               </p>
                             </div>
                           );
-                        } else if (paragraph.startsWith('1.') || paragraph.startsWith('2.') || paragraph.startsWith('3.')) {
+                        } else if (paragraph.match(/^\d+\./)) {
+                          const [number, ...rest] = paragraph.split('.');
+                          const title = rest.join('.').trim();
                           return (
-                            <div key={index} className="mt-6 first:mt-0 mb-3">
-                              <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 flex items-center">
-                                <span className="w-8 h-8 flex items-center justify-center bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-lg mr-3 text-sm font-bold">
-                                  {paragraph.split('.')[0]}
-                                </span>
-                                <span className="border-b border-blue-500 pb-1">
-                                  {paragraph.split('.')[1].trim()}
-                                </span>
+                            <div key={index} className="project-numbered-section">
+                              <style jsx>{`
+                                .project-numbered-section {
+                                  margin-top: 2rem;
+                                  margin-bottom: 1rem;
+                                }
+                                .project-numbered-section:first-child {
+                                  margin-top: 0;
+                                }
+                                .numbered-heading {
+                                  display: flex;
+                                  align-items: center;
+                                }
+                                .number-badge {
+                                  width: 2rem;
+                                  height: 2rem;
+                                  display: flex;
+                                  align-items: center;
+                                  justify-content: center;
+                                  background-color: #EFF6FF;
+                                  color: #3B82F6;
+                                  border-radius: 0.5rem;
+                                  margin-right: 0.75rem;
+                                  font-size: 0.875rem;
+                                  font-weight: 600;
+                                }
+                                .title-text {
+                                  font-size: 1.25rem;
+                                  font-weight: 600;
+                                  color: #1F2937;
+                                  border-bottom: 2px solid #3B82F6;
+                                  padding-bottom: 0.25rem;
+                                }
+                                :global(.dark) .number-badge {
+                                  background-color: #1E3A8A;
+                                  color: #60A5FA;
+                                }
+                                :global(.dark) .title-text {
+                                  color: #F3F4F6;
+                                }
+                              `}</style>
+                              <h3 className="numbered-heading">
+                                <span className="number-badge">{number}</span>
+                                <span className="title-text">{title}</span>
                               </h3>
                             </div>
                           );
                         } else if (paragraph.trim().length > 0) {
                           return (
-                            <p key={index} className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4 text-base pl-2">
+                            <p key={index} className="project-paragraph">
+                              <style jsx>{`
+                                .project-paragraph {
+                                  color: #4B5563;
+                                  font-size: 1rem;
+                                  line-height: 1.625;
+                                  margin-bottom: 1rem;
+                                }
+                                :global(.dark) .project-paragraph {
+                                  color: #D1D5DB;
+                                }
+                              `}</style>
                               {paragraph}
                             </p>
                           );
@@ -229,41 +280,36 @@ export default function ProjectDetailPage() {
                       </div>
                     </div>
                     <div className="prose prose-lg dark:prose-invert max-w-none">
-                      {project?.projectDetails.solution.split('\n').map((paragraph, index) => {
-                        if (paragraph.startsWith('•')) {
+                      {project?.projectDetails?.solution?.split('\n').map((paragraph, index) => {
+                        if (!paragraph?.trim()) return null;
+                        
+                        if (paragraph.includes('•')) {
                           return (
-                            <div key={index} className="flex items-start space-x-3 mb-2">
-                              <span className="mt-2 w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0" />
-                              <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-base">
-                                {paragraph.substring(1).trim()}
+                            <div key={index} className="flex items-start gap-3 mb-2 pl-1">
+                              <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-green-500 mt-[0.6rem]" />
+                              <p className="flex-1 text-gray-600 dark:text-gray-300 text-base leading-relaxed -mt-0.5">
+                                {paragraph.replace('•', '').trim()}
                               </p>
                             </div>
                           );
-                        } else if (paragraph.startsWith('-')) {
+                        } else if (paragraph.match(/^\d+\./)) {
+                          const [number, ...rest] = paragraph.split('.');
+                          const title = rest.join('.').trim();
                           return (
-                            <div key={index} className="ml-6 flex items-start space-x-3 mb-2">
-                              <span className="mt-2 w-1.5 h-1.5 rounded-full bg-green-400 flex-shrink-0" />
-                              <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-base">
-                                {paragraph.substring(1).trim()}
-                              </p>
-                            </div>
-                          );
-                        } else if (paragraph.startsWith('1.') || paragraph.startsWith('2.') || paragraph.startsWith('3.') || paragraph.startsWith('4.') || paragraph.startsWith('5.')) {
-                          return (
-                            <div key={index} className="mt-6 first:mt-0 mb-3">
+                            <div key={index} className="mt-8 first:mt-0 mb-4">
                               <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 flex items-center">
                                 <span className="w-8 h-8 flex items-center justify-center bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 rounded-lg mr-3 text-sm font-bold">
-                                  {paragraph.split('.')[0]}
+                                  {number}
                                 </span>
-                                <span className="border-b border-green-500 pb-1">
-                                  {paragraph.split('.')[1].trim()}
+                                <span className="border-b-2 border-green-500 pb-1">
+                                  {title}
                                 </span>
                               </h3>
                             </div>
                           );
                         } else if (paragraph.trim().length > 0) {
                           return (
-                            <p key={index} className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4 text-base pl-2">
+                            <p key={index} className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4 text-base">
                               {paragraph}
                             </p>
                           );
@@ -285,26 +331,28 @@ export default function ProjectDetailPage() {
                       </div>
                     </div>
                     <div className="prose prose-lg dark:prose-invert max-w-none">
-                      {project?.projectDetails.methodology.split('\n').map((paragraph, index) => {
-                        if (paragraph.startsWith('•')) {
+                      {project?.projectDetails?.methodology?.split('\n').map((paragraph, index) => {
+                        if (!paragraph?.trim()) return null;
+                        
+                        if (paragraph.includes('•')) {
                           return (
-                            <div key={index} className="flex items-start space-x-3 mb-2">
-                              <span className="mt-2 w-1.5 h-1.5 rounded-full bg-purple-500 flex-shrink-0" />
-                              <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-base">
-                                {paragraph.substring(1).trim()}
+                            <div key={index} className="flex items-start gap-3 mb-2 pl-1">
+                              <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-purple-500 mt-[0.6rem]" />
+                              <p className="flex-1 text-gray-600 dark:text-gray-300 text-base leading-relaxed -mt-0.5">
+                                {paragraph.replace('•', '').trim()}
                               </p>
                             </div>
                           );
-                        } else if (paragraph.startsWith('1.') || paragraph.startsWith('2.') || paragraph.startsWith('3.') || paragraph.startsWith('4.') || paragraph.startsWith('5.')) {
+                        } else if (paragraph.match(/^\d+\./)) {
                           const [number, ...rest] = paragraph.split('.');
                           const title = rest.join('.').trim();
                           return (
-                            <div key={index} className="mt-6 first:mt-0 mb-3">
+                            <div key={index} className="mt-8 first:mt-0 mb-4">
                               <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 flex items-center">
                                 <span className="w-8 h-8 flex items-center justify-center bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 rounded-lg mr-3 text-sm font-bold">
                                   {number}
                                 </span>
-                                <span className="border-b border-purple-500 pb-1">
+                                <span className="border-b-2 border-purple-500 pb-1">
                                   {title}
                                 </span>
                               </h3>
@@ -312,7 +360,7 @@ export default function ProjectDetailPage() {
                           );
                         } else if (paragraph.trim().length > 0) {
                           return (
-                            <p key={index} className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4 text-base pl-2">
+                            <p key={index} className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4 text-base">
                               {paragraph}
                             </p>
                           );
@@ -339,12 +387,12 @@ export default function ProjectDetailPage() {
                         {project?.projectDetails?.results?.split('\n').map((paragraph, index) => {
                           if (!paragraph?.trim()) return null;
                           
-                          if (paragraph.startsWith('•') || paragraph.startsWith('-')) {
+                          if (paragraph.includes('•')) {
                             return (
-                              <div key={index} className="flex items-start space-x-2 mb-1">
-                                <span className="mt-1.5 w-1 h-1 rounded-full bg-orange-500 flex-shrink-0" />
-                                <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-base -mt-0.5">
-                                  {paragraph.substring(1).trim()}
+                              <div key={index} className="flex items-start gap-3 mb-2 pl-1">
+                                <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-orange-500 mt-[0.6rem]" />
+                                <p className="flex-1 text-gray-600 dark:text-gray-300 text-base leading-relaxed -mt-0.5">
+                                  {paragraph.replace('•', '').trim()}
                                 </p>
                               </div>
                             );
@@ -352,24 +400,25 @@ export default function ProjectDetailPage() {
                             const [number, ...rest] = paragraph.split('.');
                             const title = rest.join('.').trim();
                             return (
-                              <div key={index} className="mt-4 first:mt-0 mb-2">
+                              <div key={index} className="mt-8 first:mt-0 mb-4">
                                 <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 flex items-center">
                                   <span className="w-8 h-8 flex items-center justify-center bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-400 rounded-lg mr-3 text-sm font-bold">
                                     {number}
                                   </span>
-                                  <span className="border-b border-orange-500 pb-1">
+                                  <span className="border-b-2 border-orange-500 pb-1">
                                     {title}
                                   </span>
                                 </h3>
                               </div>
                             );
-                          } else {
+                          } else if (paragraph.trim().length > 0) {
                             return (
-                              <p key={index} className="text-gray-600 dark:text-gray-300 leading-relaxed mb-2 text-base pl-2">
+                              <p key={index} className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4 text-base">
                                 {paragraph}
                               </p>
                             );
                           }
+                          return null;
                         })}
                       </div>
                     </div>
@@ -384,34 +433,36 @@ export default function ProjectDetailPage() {
                         </div>
                       </div>
                       <div className="prose prose-lg dark:prose-invert max-w-none">
-                        {project?.projectDetails.conclusions.split('\n').map((paragraph, index) => {
-                          if (paragraph.startsWith('1.') || paragraph.startsWith('2.') || paragraph.startsWith('3.')) {
+                        {project?.projectDetails?.conclusions?.split('\n').map((paragraph, index) => {
+                          if (!paragraph?.trim()) return null;
+                          
+                          if (paragraph.includes('•')) {
+                            return (
+                              <div key={index} className="flex items-start gap-3 mb-2 pl-1">
+                                <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-pink-500 mt-[0.6rem]" />
+                                <p className="flex-1 text-gray-600 dark:text-gray-300 text-base leading-relaxed -mt-0.5">
+                                  {paragraph.replace('•', '').trim()}
+                                </p>
+                              </div>
+                            );
+                          } else if (paragraph.match(/^\d+\./)) {
                             const [number, ...rest] = paragraph.split('.');
                             const title = rest.join('.').trim();
                             return (
-                              <div key={index} className="mt-4 first:mt-0 mb-2">
+                              <div key={index} className="mt-8 first:mt-0 mb-4">
                                 <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 flex items-center">
                                   <span className="w-8 h-8 flex items-center justify-center bg-pink-100 dark:bg-pink-900 text-pink-600 dark:text-pink-400 rounded-lg mr-3 text-sm font-bold">
                                     {number}
                                   </span>
-                                  <span className="border-b border-pink-500 pb-1">
+                                  <span className="border-b-2 border-pink-500 pb-1">
                                     {title}
                                   </span>
                                 </h3>
                               </div>
                             );
-                          } else if (paragraph.startsWith('•') || paragraph.startsWith('-')) {
-                            return (
-                              <div key={index} className="flex items-start space-x-2 mb-1 ml-6">
-                                <span className="mt-1.5 w-1 h-1 rounded-full bg-pink-500 flex-shrink-0" />
-                                <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-base -mt-0.5">
-                                  {paragraph.substring(1).trim()}
-                                </p>
-                              </div>
-                            );
                           } else if (paragraph.trim().length > 0) {
                             return (
-                              <p key={index} className="text-gray-600 dark:text-gray-300 leading-relaxed mb-2 text-base pl-2">
+                              <p key={index} className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4 text-base">
                                 {paragraph}
                               </p>
                             );

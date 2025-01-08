@@ -28,19 +28,23 @@ export default function HomePage() {
   useEffect(() => {
     const fetchFeaturedProjects = async () => {
       try {
-        const response = await fetch('http://localhost:5001/api/projects')
+        const response = await fetch('http://localhost:5001/api/projects', {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        });
         if (!response.ok) {
-          throw new Error('Failed to fetch projects')
+          throw new Error('Failed to fetch projects');
         }
-        const projects = await response.json()
-        // İlk 3 projeyi öne çıkan projeler olarak al
-        setFeaturedProjects(projects.slice(0, 3))
+        const projects = await response.json();
+        setFeaturedProjects(projects.slice(0, 3));
       } catch (error) {
-        console.error('Error fetching featured projects:', error)
+        console.error('Error fetching featured projects:', error);
       }
-    }
+    };
 
-    fetchFeaturedProjects()
+    fetchFeaturedProjects();
   }, [])
 
   return (
@@ -85,8 +89,9 @@ export default function HomePage() {
                     <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left"></div>
                   </Link>
                   <a 
-                    href="/cv.pdf"
+                    href="/assets/cv.pdf"
                     target="_blank"
+                    rel="noopener noreferrer"
                     className="group relative inline-flex items-center px-8 py-4 text-lg font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
                   >
                     <HiDownload className="mr-2 group-hover:animate-bounce" />
@@ -97,7 +102,7 @@ export default function HomePage() {
                 {/* Sosyal Medya */}
                 <div className="flex gap-4">
                   <a
-                    href="https://github.com/abdullahsezdi"
+                    href="https://github.com/AbdullahSezdi"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group p-4 text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
@@ -105,7 +110,7 @@ export default function HomePage() {
                     <BsGithub size={28} className="group-hover:text-blue-500 transition-colors duration-200" />
                   </a>
                   <a
-                    href="https://linkedin.com/in/abdullahsezdi"
+                    href="https://www.linkedin.com/in/abdullah-sezdi-b648a41b3/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group p-4 text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
@@ -117,14 +122,15 @@ export default function HomePage() {
 
               {/* Sağ Taraf - Profil Görseli */}
               <div className="relative lg:order-last order-first">
-                <div className="relative w-full max-w-lg mx-auto aspect-square">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-blue-500 to-blue-400 rounded-full blur-3xl opacity-20 animate-pulse"></div>
-                  <div className="relative z-10 bg-white dark:bg-gray-800 rounded-full shadow-xl overflow-hidden">
+                <div className="relative w-full max-w-lg mx-auto">
+                  <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/30 to-blue-400/30 rounded-full blur-[80px] opacity-50 animate-pulse"></div>
+                  <div className="relative z-10 bg-white dark:bg-gray-800 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden w-[450px] h-[450px] mx-auto">
                     <Image
-                      src="/profile.svg"
+                      src="/images/profile.png"
                       alt="Abdullah Sezdi"
-                      fill
-                      className="object-cover p-4 hover:scale-105 transition-transform duration-200"
+                      width={450}
+                      height={450}
+                      className="w-full h-full object-cover transform hover:scale-[1.02] transition-all duration-300"
                       priority
                     />
                   </div>
@@ -175,22 +181,33 @@ export default function HomePage() {
                       </span>
                     ))}
                   </div>
-                  <div className="flex gap-4">
-                    <Link
-                      href={`/projects/${project._id}`}
-                      className="flex-1 text-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-lg transition-colors duration-200"
-                    >
-                      Detayları Gör
-                    </Link>
-                    {project.links.github && (
+                  <div className="flex items-center space-x-4 mt-4">
+                    {project.links?.github && (
                       <a
                         href={project.links.github}
                         target="_blank"
-                        className="flex-1 text-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
+                        rel="noopener noreferrer"
+                        className="group p-4 text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
                       >
-                        GitHub
+                        <BsGithub size={28} className="group-hover:text-blue-500 transition-colors duration-200" />
                       </a>
                     )}
+                    {project.links?.demo && (
+                      <a
+                        href={project.links.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-600 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+                      >
+                        Demo
+                      </a>
+                    )}
+                    <Link
+                      href={`/projects/${project._id}`}
+                      className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 transition-colors ml-auto group-hover:translate-x-1 transform duration-200"
+                    >
+                      Detaylar →
+                    </Link>
                   </div>
                 </div>
               ))}

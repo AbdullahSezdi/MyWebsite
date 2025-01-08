@@ -1,11 +1,24 @@
+const fs = require('fs').promises;
+const path = require('path');
 const Project = require('../models/Project');
 
 // Tüm projeleri getir
 exports.getAllProjects = async (req, res) => {
   try {
-    const projects = await Project.find();
+    const projectsDir = path.join(__dirname, '../../data/projects');
+    const files = await fs.readdir(projectsDir);
+    const projectPromises = files
+      .filter(file => file.endsWith('.json'))
+      .map(async file => {
+        const filePath = path.join(projectsDir, file);
+        const content = await fs.readFile(filePath, 'utf-8');
+        return JSON.parse(content);
+      });
+
+    const projects = await Promise.all(projectPromises);
     res.json(projects);
   } catch (error) {
+    console.error('Error loading projects:', error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -13,12 +26,22 @@ exports.getAllProjects = async (req, res) => {
 // ID'ye göre proje getir
 exports.getProjectById = async (req, res) => {
   try {
-    const project = await Project.findById(req.params.id);
-    if (project) {
-      res.json(project);
-    } else {
-      res.status(404).json({ message: 'Proje bulunamadı' });
+    const projectsDir = path.join(__dirname, '../../data/projects');
+    const files = await fs.readdir(projectsDir);
+    
+    for (const file of files) {
+      if (!file.endsWith('.json')) continue;
+      
+      const filePath = path.join(projectsDir, file);
+      const content = await fs.readFile(filePath, 'utf-8');
+      const project = JSON.parse(content);
+      
+      if (project._id === req.params.id) {
+        return res.json(project);
+      }
     }
+    
+    res.status(404).json({ message: 'Proje bulunamadı' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
