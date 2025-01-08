@@ -1,4 +1,5 @@
 {
+  "_id": "rfm-analysis",
   "title": "RFM Analizi ile Müşteri Segmentasyonu",
   "shortDescription": "E-ticaret platformu için RFM (Recency, Frequency, Monetary) analizi kullanarak müşteri segmentasyonu gerçekleştirdim. Müşterileri davranışlarına göre gruplandırarak hedefli pazarlama stratejileri geliştirdim.",
   "category": "Veri Bilimi",
@@ -11,8 +12,8 @@
 
     "methodology": "Proje dört ana fazda gerçekleştirildi:\n\n1. Veri Hazırlama\n• Veri temizleme ve standardizasyon\n• Feature engineering\n• Outlier analizi\n• Veri normalizasyonu\n\n2. RFM Analizi\n• RFM skorlarının hesaplanması\n• Skor kombinasyonlarının analizi\n• Segment eşik değerlerinin belirlenmesi\n• Segment karakterizasyonu\n\n3. Clustering ve Segmentasyon\n• K-means clustering uygulaması\n• Optimal segment sayısı belirleme\n• Segment profilleri oluşturma\n• Segment geçiş analizi\n\n4. Strateji Geliştirme\n• Segment bazlı aksiyon planları\n• Pazarlama stratejileri\n• Kampanya önerileri\n• ROI analizi",
 
-    "results": "Proje sonucunda elde edilen başarı metrikleri:\n\n1. Segmentasyon Başarısı\n• Silhouette Score: 0.68\n• Segment homojenliği: %85\n• Segment stability: %92\n• Cross-validation accuracy: %88\n\n2. İş Etkisi\n• Kampanya dönüşüm oranlarında %45 artış\n• Müşteri tutundurma oranında %35 iyileşme\n• Marketing ROI'de %50 artış\n• Customer Lifetime Value'da %30 artış\n\n3. Operasyonel İyileştirmeler\n• Pazarlama bütçesi optimizasyonu\n• Hedefli kampanya verimliliği\n• Müşteri memnuniyetinde artış\n• Churn oranlarında azalma",
+    "results": "Geliştirdiğim RFM analizi üzerinde yaptığım test sonuçları:\n\nModel Performansı:\n• Müşteri segmentasyonunda yüksek doğruluk\n• Segment geçişlerini başarıyla tespit ettim\n• Davranış modellerini tutarlı şekilde analiz ettim\n\nSistem Testleri:\n• Hızlı segment hesaplama kapasitesi\n• Test verilerinde tutarlı sonuçlar\n• Verimli veri işleme performansı\n\nÖğrenme Çıktıları:\n• Müşteri segmentasyonu pratiği kazandım\n• Veri analizi teknikleri deneyimi\n• İş zekası uygulamaları geliştirdim",
 
-    "conclusions": "Proje sonuçları ve öğrenimler:\n\n1. Analiz Çıktıları\n• RFM modelinin segmentasyon başarısı\n• Davranış bazlı segmentasyonun önemi\n• Çok boyutlu analiz yaklaşımının değeri\n• Veri odaklı karar almanın etkisi\n\n2. İş Değeri\n• Hedefli pazarlamanın etkinliği\n• Segment bazlı stratejilerin başarısı\n• Müşteri odaklı yaklaşımın önemi\n• ROI optimizasyonu\n\n3. Gelecek Planları\n• Real-time segmentasyon\n• AI/ML entegrasyonu\n• Predictive analytics\n• Automated marketing optimization"
+    "conclusions": "Bu proje ile elde ettiğim kazanımlar:\n\nTemel Öğrenimler:\n• Müşteri analizi teknikleri\n• Segmentasyon metodolojileri\n• Veri analizi proje yönetimi\n\nTeknik Gelişim:\n• RFM modelleme teknikleri\n• Python ve analiz kütüphaneleri\n• Veri görselleştirme araçları\n\nGelecek Hedeflerim:\n• Gelişmiş analiz teknikleri öğrenme\n• Daha kapsamlı segmentasyon modelleri\n• Gerçek dünya projeleri geliştirme"
   }
 } 

@@ -1,9 +1,14 @@
 {
+  "_id": "sentiment-analysis",
   "title": "Türkçe Duygu Analizi",
   "shortDescription": "Türkçe metinler için BERT tabanlı duygu analizi modeli geliştirdim. Transfer learning ve fine-tuning teknikleri kullanarak yüksek doğrulukta sınıflandırma yapan bir sistem oluşturdum.",
   "category": "Doğal Dil İşleme",
   "technologies": "PyTorch, BERT, FastAPI",
   "thumbnail": "/images/projects/sentiment-analysis.jpg",
+  "links": {
+    "github": "https://github.com/abdullahsezdi/sentiment-analysis",
+    "demo": "https://sentiment.abdullahsezdi.com"
+  },
   "projectDetails": {
     "problem": "Türkçe metinlerde duygu analizi konusunda karşılaşılan zorluklar...",
     "solution": "BERT tabanlı bir derin öğrenme modeli geliştirerek çözüm sağladım...",
