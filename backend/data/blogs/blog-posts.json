@@ -1,0 +1,52 @@
+[
+  {
+    "slug": "ab-testi",
+    "title": "A/B Testleri Üzerinden İstatistiğin Gücü: Deneme Tahtasında Veriye Dayalı Kararlar",
+    "summary": "A/B testlerinin temellerini, istatistiksel önemini ve uygulama aşamalarını detaylı bir şekilde inceliyoruz.",
+    "category": "Veri Analizi",
+    "readTime": "10",
+    "publishDate": "2024-03-20",
+    "image": "/images/blog/ab-testing.svg",
+    "tags": ["A/B Testing", "İstatistik", "Veri Analizi"]
+  },
+  {
+    "slug": "yapay-zeka-ve-veri-biliminin-gelecegi",
+    "title": "Yapay Zeka ve Veri Biliminin Geleceği: 2024 ve Sonrası",
+    "summary": "Yapay zeka ve veri bilimi alanındaki son gelişmeler, trendler ve gelecek öngörüleri hakkında detaylı bir analiz.",
+    "category": "Yapay Zeka",
+    "readTime": "8",
+    "publishDate": "2024-03-15",
+    "image": "/images/blog/ai-future.svg",
+    "tags": ["Yapay Zeka", "Veri Bilimi", "Teknoloji Trendleri"]
+  },
+  {
+    "slug": "derin-ogrenme-optimizasyonu",
+    "title": "Derin Öğrenme Modellerinin Optimizasyonu",
+    "summary": "Derin öğrenme modellerinin eğitim sürecini hızlandırmak ve performansını artırmak için kullanabileceğiniz optimizasyon teknikleri.",
+    "category": "Yapay Zeka",
+    "readTime": "5",
+    "publishDate": "2024-04-12",
+    "image": "/images/blog/machine-learning.svg",
+    "tags": ["Deep Learning", "Optimizasyon", "Yapay Zeka"]
+  },
+  {
+    "slug": "pandas-ipuclari",
+    "title": "Büyük Veri Analizinde Pandas İpuçları",
+    "summary": "Pandas kütüphanesi ile büyük veri setlerini daha etkili bir şekilde işlemek için kullanabileceğiniz ileri düzey teknikler.",
+    "category": "Veri Bilimi",
+    "readTime": "4",
+    "publishDate": "2024-04-10",
+    "image": "/images/blog/data-science.svg",
+    "tags": ["Python", "Pandas", "Veri Analizi"]
+  },
+  {
+    "slug": "sagemaker-deployment",
+    "title": "AWS SageMaker ile Model Deployment",
+    "summary": "AWS SageMaker kullanarak makine öğrenmesi modellerinizi production ortamına nasıl deploy edebileceğinizi öğrenin.",
+    "category": "Cloud Computing",
+    "readTime": "6",
+    "publishDate": "2024-04-08",
+    "image": "/images/blog/cloud-computing.svg",
+    "tags": ["AWS", "SageMaker", "MLOps"]
+  }
+] 

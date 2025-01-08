@@ -8,7 +8,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 interface Blog {
-  _id: string;
+  slug: string;
   title: string;
   summary: string;
   category: string;
@@ -16,7 +16,6 @@ interface Blog {
   image: string;
   publishDate: string;
   readTime: string;
-  slug: string;
 }
 
 const categories = ['Tümü', 'Yapay Zeka', 'Veri Analizi', 'Deep Learning', 'Machine Learning']
@@ -113,9 +112,9 @@ export default function Blog() {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             {/* Category Filter */}
             <div className="flex flex-wrap gap-2">
-              {categories.map((category) => (
+              {categories.map((category, index) => (
                 <button
-                  key={category}
+                  key={`${category}-${index}`}
                   onClick={() => setSelectedCategory(category)}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200
                     ${selectedCategory === category
@@ -155,7 +154,7 @@ export default function Blog() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredPosts.map((post, index) => (
                 <motion.div
-                  key={post._id}
+                  key={`${post.slug}-${index}`}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -163,17 +162,19 @@ export default function Blog() {
                 >
                   <Link href={`/blog/${post.slug}`} className="block">
                     <div className="relative h-48 bg-gray-200 dark:bg-gray-700">
-                      <Image
-                        src={post.image}
-                        alt={post.title}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = 'https://images.unsplash.com/photo-1633412802994-5c058f151b66';
-                        }}
-                      />
+                      {post.image && (
+                        <Image
+                          src={post.image}
+                          alt={post.title}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src = '/images/blog/default.svg';
+                          }}
+                        />
+                      )}
                     </div>
                     <div className="p-6">
                       <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-2">
@@ -188,9 +189,9 @@ export default function Blog() {
                         {post.summary}
                       </p>
                       <div className="flex flex-wrap gap-2">
-                        {post.tags.map((tag) => (
+                        {post.tags.map((tag, tagIndex) => (
                           <span
-                            key={tag}
+                            key={`${tag}-${tagIndex}`}
                             className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-600 rounded dark:bg-blue-900 dark:text-blue-300"
                           >
                             {tag}
