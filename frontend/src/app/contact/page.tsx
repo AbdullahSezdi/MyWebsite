@@ -26,7 +26,7 @@ export default function ContactPage() {
               
               <div className="space-y-6">
                 <a
-                  href="mailto:your.email@example.com"
+                  href="mailto:abdullahsezdi@gmail.com"
                   className="flex items-center space-x-4 text-gray-600 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-200 group"
                 >
                   <div className="bg-blue-50 dark:bg-blue-500/10 p-3 rounded-lg group-hover:bg-blue-100 dark:group-hover:bg-blue-500/20 transition-colors duration-200">
@@ -34,7 +34,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="font-medium">E-posta</p>
-                    <span className="text-sm">your.email@example.com</span>
+                    <span className="text-sm">abdullahsezdi@gmail.com</span>
                   </div>
                 </a>
                 
@@ -44,7 +44,7 @@ export default function ContactPage() {
                   </p>
                   <div className="flex space-x-4">
                     <a
-                      href="https://github.com/yourusername"
+                      href="https://github.com/AbdullahSezdi"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="bg-gray-100 dark:bg-gray-800 p-3 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-blue-50 hover:text-blue-500 dark:hover:bg-blue-500/10 dark:hover:text-blue-400 transition-colors duration-200"
@@ -52,20 +52,12 @@ export default function ContactPage() {
                       <BsGithub size={20} />
                     </a>
                     <a
-                      href="https://linkedin.com/in/yourusername"
+                      href="https://www.linkedin.com/in/abdullah-sezdi-b648a41b3/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="bg-gray-100 dark:bg-gray-800 p-3 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-blue-50 hover:text-blue-500 dark:hover:bg-blue-500/10 dark:hover:text-blue-400 transition-colors duration-200"
                     >
                       <BsLinkedin size={20} />
-                    </a>
-                    <a
-                      href="https://twitter.com/yourusername"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-gray-100 dark:bg-gray-800 p-3 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-blue-50 hover:text-blue-500 dark:hover:bg-blue-500/10 dark:hover:text-blue-400 transition-colors duration-200"
-                    >
-                      <BsTwitter size={20} />
                     </a>
                   </div>
                 </div>
