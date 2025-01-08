@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import emailjs from '@emailjs/browser'
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -16,11 +17,23 @@ export default function ContactForm() {
     setStatus('loading')
     
     try {
-      // Burada form verilerini işleyecek API endpoint'i eklenecek
-      await new Promise(resolve => setTimeout(resolve, 1000)) // Simüle edilmiş API çağrısı
+      await emailjs.send(
+        'service_husjbiu',
+        'template_2gmnilp',
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+          to_name: 'Abdullah Sezdi',
+          to_email: 'abdullahsezdi@gmail.com'
+        },
+        'bbYKmTlC8XGj7UvvI'
+      )
+      
       setStatus('success')
       setFormData({ name: '', email: '', message: '' })
     } catch (error) {
+      console.error('Error sending email:', error)
       setStatus('error')
     }
   }

@@ -9,5 +9,8 @@
     "lint": "next lint"
   },
   "author": "Abdullah Sezdi <abdullahsezeies@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@emailjs/browser": "^4.4.1"
+  }
 }
