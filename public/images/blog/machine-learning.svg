@@ -1,0 +1,19 @@
+<svg width="800" height="400" viewBox="0 0 800 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="400" fill="#F3F4F6"/>
+  
+  <!-- Brain -->
+  <circle cx="400" cy="200" r="120" fill="#3B82F6" fill-opacity="0.1"/>
+  <path d="M320 200c0-44.183 35.817-80 80-80s80 35.817 80 80-35.817 80-80 80-80-35.817-80-80z" stroke="#3B82F6" stroke-width="4"/>
+  
+  <!-- Neural Network Lines -->
+  <path d="M360 160l80 80M360 240l80-80" stroke="#3B82F6" stroke-width="4"/>
+  <path d="M400 120v160" stroke="#3B82F6" stroke-width="4"/>
+  
+  <!-- Nodes -->
+  <circle cx="360" cy="160" r="8" fill="#3B82F6"/>
+  <circle cx="360" cy="240" r="8" fill="#3B82F6"/>
+  <circle cx="440" cy="160" r="8" fill="#3B82F6"/>
+  <circle cx="440" cy="240" r="8" fill="#3B82F6"/>
+  <circle cx="400" cy="120" r="8" fill="#3B82F6"/>
+  <circle cx="400" cy="280" r="8" fill="#3B82F6"/>
+</svg> 

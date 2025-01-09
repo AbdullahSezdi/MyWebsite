@@ -1,0 +1,34 @@
+{
+  "blogs": [
+    {
+      "slug": "veri-bilimi-nedir",
+      "title": "Veri Bilimi Nedir? Temel Kavramlar ve Uygulama Alanları",
+      "summary": "Veri biliminin temel kavramlarını, uygulama alanlarını ve günümüzdeki önemini detaylı bir şekilde ele alıyoruz.",
+      "category": "Veri Analizi",
+      "tags": ["Veri Bilimi", "Veri Analizi", "Machine Learning"],
+      "image": "/images/blog/data-science.jpg",
+      "publishDate": "2024-01-08",
+      "readTime": "5 dk"
+    },
+    {
+      "slug": "yapay-zeka-giris",
+      "title": "Yapay Zeka'ya Giriş: Temel Kavramlar ve Uygulamalar",
+      "summary": "Yapay zeka teknolojilerinin temellerini, çalışma prensiplerini ve günlük hayattaki uygulamalarını inceliyoruz.",
+      "category": "Yapay Zeka",
+      "tags": ["Yapay Zeka", "Machine Learning", "Deep Learning"],
+      "image": "/images/blog/ai-intro.jpg",
+      "publishDate": "2024-01-07",
+      "readTime": "7 dk"
+    },
+    {
+      "slug": "deep-learning-temelleri",
+      "title": "Deep Learning Temelleri ve Neural Networks",
+      "summary": "Derin öğrenmenin temel kavramlarını ve sinir ağlarının nasıl çalıştığını detaylı bir şekilde açıklıyoruz.",
+      "category": "Deep Learning",
+      "tags": ["Deep Learning", "Neural Networks", "AI"],
+      "image": "/images/blog/deep-learning.jpg",
+      "publishDate": "2024-01-06",
+      "readTime": "10 dk"
+    }
+  ]
+} 
