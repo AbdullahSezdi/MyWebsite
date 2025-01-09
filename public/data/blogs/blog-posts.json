@@ -1,0 +1,32 @@
+[
+  {
+    "slug": "ab-testi",
+    "title": "A/B Testleri Üzerinden İstatistiğin Gücü: Deneme Tahtasında Veriye Dayalı Kararlar",
+    "summary": "A/B testlerinin temellerini, istatistiksel önemini ve uygulama aşamalarını detaylı bir şekilde inceliyoruz.",
+    "category": "Veri Analizi",
+    "readTime": "10",
+    "publishDate": "2024-03-20",
+    "image": "/images/blog/ab-testing.svg",
+    "tags": ["A/B Testing", "İstatistik", "Veri Analizi"]
+  },
+  {
+    "slug": "zaman-serileri-tuzaklar",
+    "title": "Zaman Serileri Verisinde Dikkat Edilmesi Gereken Tuzaklar",
+    "summary": "Zaman serisi analizinde sıkça karşılaşılan tuzaklar, yaygın hatalar ve bunlardan kaçınma yöntemleri hakkında kapsamlı bir rehber.",
+    "category": "Veri Bilimi",
+    "readTime": "12",
+    "publishDate": "2024-03-21",
+    "image": "/images/blog/time-series.svg",
+    "tags": ["Zaman Serileri", "Veri Bilimi", "Veri Analizi"]
+  },
+  {
+    "slug": "makine-ogrenimi-algoritmalari",
+    "title": "Makine Öğrenimi Algoritmalarını Nasıl Seçmeliyiz?",
+    "summary": "Makine öğrenimi projelerinde algoritma seçimi konusunda kapsamlı bir rehber. Veri tipinden model performansına, yorumlanabilirlikten pratik örneklere kadar temel bilgiler.",
+    "category": "Veri Bilimi",
+    "readTime": "15",
+    "publishDate": "2024-03-21",
+    "image": "/images/blog/machine-learning.svg",
+    "tags": ["Makine Öğrenimi", "Veri Bilimi", "Algoritma Seçimi"]
+  }
+] 
