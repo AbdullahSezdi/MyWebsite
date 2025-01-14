@@ -1,194 +1,204 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import NextImage from 'next/image'
-import NextLink from 'next/link'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism'
-import { motion } from 'framer-motion'
-import { IoCalendarOutline, IoTimeOutline, IoArrowBack } from 'react-icons/io5'
+import { useState, useEffect } from 'react'
 import Navbar from '@/components/layout/Navbar'
+import Image from 'next/image'
+import Link from 'next/link'
+import { IoCalendarOutline, IoTimeOutline, IoArrowBack } from 'react-icons/io5'
+import ReactMarkdown from 'react-markdown'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import remarkGfm from 'remark-gfm'
+import type { ReactNode } from 'react'
 
-// Component aliases to fix TypeScript errors
-const Image = NextImage as any
-const Link = NextLink as any
-const MotionDiv = motion.div as any
-const CodeHighlighter = SyntaxHighlighter as any
-const MarkdownRenderer = ReactMarkdown as any
-
-interface BlogPost {
-  slug: string
-  title: string
-  content: string
-  publishDate: string
-  readTime: string
-  image: string
-  category: string
-  tags: string[]
-  summary: string
+interface Blog {
+  slug: string;
+  title: string;
+  summary: string;
+  category: string;
+  tags: string[];
+  image: string;
+  publishDate: string;
+  readTime: string;
+  content: string;
 }
 
-export default function BlogPost({ params }: { params: { slug: string } }) {
-  const [post, setPost] = useState<BlogPost | null>(null)
+interface CodeProps {
+  className?: string;
+  children: ReactNode;
+}
+
+export default function BlogDetail({ params }: { params: { slug: string } }) {
+  const [post, setPost] = useState<Blog | null>(null)
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchBlogPost = async () => {
       try {
         const response = await fetch(`/data/blogs/${params.slug}.json`)
-        if (!response.ok) throw new Error('Blog yazısı bulunamadı')
+        if (!response.ok) {
+          throw new Error('Blog yazısı yüklenirken bir hata oluştu')
+        }
         const data = await response.json()
         setPost(data)
+        setLoading(false)
       } catch (err) {
         setError('Blog yazısı yüklenirken bir hata oluştu')
+        setLoading(false)
         console.error('Blog yükleme hatası:', err)
       }
     }
+
     fetchBlogPost()
   }, [params.slug])
 
-  if (error) {
+  if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen bg-white dark:bg-gray-900">
         <Navbar />
-        <div className="flex flex-col items-center justify-center h-[calc(100vh-80px)]">
-          <h2 className="text-2xl font-bold text-red-600 dark:text-red-400 mb-4">
-            Bir şeyler yanlış gitti!
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400">{error}</p>
+        <div className="flex items-center justify-center h-[calc(100vh-80px)]">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
         </div>
       </div>
     )
   }
 
-  if (!post) {
+  if (error || !post) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen bg-white dark:bg-gray-900">
         <Navbar />
-        <div className="flex items-center justify-center h-[calc(100vh-80px)]">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500" />
+        <div className="flex flex-col items-center justify-center h-[calc(100vh-80px)]">
+          <h2 className="text-2xl font-bold text-red-600 dark:text-red-400 mb-4">
+            Bir şeyler yanlış gitti!
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
+            {error}
+          </p>
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:underline"
+          >
+            <IoArrowBack className="w-4 h-4" />
+            Blog'a dön
+          </Link>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-white dark:bg-gray-900">
       <Navbar />
-      
-      {/* Back to Blog */}
-      <div className="max-w-4xl mx-auto px-4 pt-8">
-        <Link 
-          href="/blog"
-          className="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-        >
-          <IoArrowBack className="mr-2" />
-          Blog'a Dön
-        </Link>
-      </div>
 
-      {/* Article Header */}
-      <header className="max-w-4xl mx-auto px-4 py-12">
-        <MotionDiv
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="space-y-6"
-        >
-          <div className="space-y-2">
-            <span className="inline-block px-3 py-1 text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 rounded-full">
-              {post.category}
-            </span>
-            <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white">
-              {post.title}
-            </h1>
-          </div>
+      {/* Hero Section */}
+      <header className="relative h-[60vh] min-h-[400px] bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30">
+        {/* Back Button */}
+        <div className="absolute top-8 left-4 md:left-8 z-10">
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 bg-white/80 dark:bg-gray-800/80 rounded-full backdrop-blur-sm hover:bg-white dark:hover:bg-gray-800 transition-colors"
+          >
+            <IoArrowBack className="w-4 h-4" />
+            Blog'a dön
+          </Link>
+        </div>
 
-          <p className="text-xl text-gray-600 dark:text-gray-300">
-            {post.summary}
-          </p>
+        {/* Hero Content */}
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full max-w-screen-md mx-auto px-4">
+            <div className="flex flex-col items-center text-center">
+              <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400 mb-6">
+                <div className="flex items-center gap-1.5">
+                  <IoCalendarOutline className="w-4 h-4" />
+                  <time dateTime={post.publishDate}>
+                    {new Date(post.publishDate).toLocaleDateString('tr-TR', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </time>
+                </div>
+                <span>•</span>
+                <div className="flex items-center gap-1.5">
+                  <IoTimeOutline className="w-4 h-4" />
+                  <span>{post.readTime} dk okuma</span>
+                </div>
+              </div>
 
-          <div className="flex items-center gap-6 text-sm text-gray-600 dark:text-gray-400">
-            <div className="flex items-center gap-2">
-              <IoCalendarOutline className="w-4 h-4" />
-              <time dateTime={post.publishDate}>
-                {new Date(post.publishDate).toLocaleDateString('tr-TR', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
-              </time>
+              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+                {post.title}
+              </h1>
+
+              <div className="flex flex-wrap justify-center gap-2">
+                {post.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-3 py-1 text-sm text-gray-600 dark:text-gray-400 bg-white/80 dark:bg-gray-800/80 rounded-full backdrop-blur-sm"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <IoTimeOutline className="w-4 h-4" />
-              <span>{post.readTime} dk okuma</span>
-            </div>
           </div>
-        </MotionDiv>
+        </div>
       </header>
 
-      {/* Featured Image */}
-      <div className="w-full aspect-[21/9] relative mb-12">
-        <Image
-          src={post.image}
-          alt={post.title}
-          fill
-          className="object-cover"
-          priority
-        />
-      </div>
+      {/* Blog Content */}
+      <main className="max-w-screen-md mx-auto px-4 py-12">
+        {/* Featured Image */}
+        <div className="relative aspect-[16/9] -mt-32 mb-12 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden shadow-xl">
+          <Image
+            src={post.image}
+            alt={post.title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 768px"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = '/images/blog/default.svg';
+            }}
+          />
+        </div>
 
-      {/* Article Content */}
-      <article className="max-w-4xl mx-auto px-4 pb-16">
-        <div className="prose prose-lg dark:prose-invert max-w-none">
-          <MarkdownRenderer
+        {/* Content */}
+        <article className="prose prose-lg dark:prose-invert max-w-none">
+          <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             components={{
-              code({ node, inline, className, children, ...props }: any) {
+              code(props) {
+                const { className, children } = props
                 const match = /language-(\w+)/.exec(className || '')
-                return !inline && match ? (
+                const language = match ? match[1] : ''
+                const isInline = !match
+
+                if (isInline) {
+                  return <code className={className}>{children}</code>
+                }
+
+                return (
                   <div className="relative">
                     <div className="absolute right-4 top-4 text-xs text-gray-400 font-mono">
-                      {match[1]}
+                      {language}
                     </div>
-                    <CodeHighlighter
+                    <SyntaxHighlighter
                       style={vscDarkPlus}
-                      language={match[1]}
+                      language={language}
                       PreTag="div"
                       className="rounded-lg !mt-0 !bg-gray-900"
-                      {...props}
                     >
                       {String(children).replace(/\n$/, '')}
-                    </CodeHighlighter>
+                    </SyntaxHighlighter>
                   </div>
-                ) : (
-                  <code className={`${className} px-1.5 py-0.5 rounded-md`} {...props}>
-                    {children}
-                  </code>
                 )
               }
             }}
           >
             {post.content}
-          </MarkdownRenderer>
-        </div>
-
-        {/* Tags */}
-        <div className="mt-12 pt-6 border-t border-gray-200 dark:border-gray-800">
-          <div className="flex flex-wrap gap-2">
-            {post.tags.map((tag, index) => (
-              <span
-                key={index}
-                className="px-3 py-1 text-sm bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-md"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-      </article>
+          </ReactMarkdown>
+        </article>
+      </main>
     </div>
   )
 } 
