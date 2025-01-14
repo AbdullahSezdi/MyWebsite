@@ -6,7 +6,8 @@ import { BsGithub, BsLinkedin } from 'react-icons/bs'
 import { HiDownload } from 'react-icons/hi'
 import AnimatedSection from '@/components/ui/AnimatedSection'
 import Navbar from '@/components/layout/Navbar'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
+import BlogCard from '@/components/blog/BlogCard'
 
 interface Project {
   slug: string
@@ -36,10 +37,18 @@ export default function HomePage() {
   const [featuredProjects, setFeaturedProjects] = useState<Project[]>([])
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
 
+  // Projeleri memoize edelim
+  const memoizedProjects = useMemo(() => 
+    featuredProjects.map(project => ({
+      ...project,
+      technologies: project.technologies.split(',').map(tech => tech.trim())
+    })),
+    [featuredProjects]
+  );
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Projeleri getir
         const projectsResponse = await fetch('http://localhost:5001/api/projects', {
           headers: {
             'Accept': 'application/json',
@@ -63,6 +72,7 @@ export default function HomePage() {
           throw new Error('Failed to fetch blog posts');
         }
         const blogs = await blogsResponse.json();
+        console.log('Fetched Blog Posts:', blogs);
         setBlogPosts(blogs);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -77,14 +87,14 @@ export default function HomePage() {
       <Navbar />
       <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
         {/* Hero Section */}
-        <section className="relative pt-32 pb-40 overflow-hidden">
+        <AnimatedSection key="hero-section" className="relative pt-32 pb-40 overflow-hidden">
           {/* Animated Background Elements */}
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
             <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
           </div>
 
-          <AnimatedSection className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Sol Taraf - Metin İçeriği */}
               <div className="space-y-8">
@@ -110,8 +120,10 @@ export default function HomePage() {
                     href="/contact"
                     className="group relative inline-flex items-center px-8 py-4 text-lg font-medium text-white bg-gradient-to-r from-blue-600 to-blue-500 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 overflow-hidden"
                   >
-                    <span className="relative z-10">İletişime Geç</span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left"></div>
+                    <div className="relative w-full">
+                      <span className="relative z-10">İletişime Geç</span>
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left"></div>
+                    </div>
                   </Link>
                   <a 
                     href="/assets/cv.pdf"
@@ -126,22 +138,28 @@ export default function HomePage() {
 
                 {/* Sosyal Medya */}
                 <div className="flex gap-4">
-                  <a
-                    href="https://github.com/AbdullahSezdi"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group p-4 text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
-                  >
-                    <BsGithub size={28} className="group-hover:text-blue-500 transition-colors duration-200" />
-                  </a>
-                  <a
-                    href="https://www.linkedin.com/in/abdullah-sezdi-b648a41b3/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group p-4 text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
-                  >
-                    <BsLinkedin size={28} className="group-hover:text-blue-500 transition-colors duration-200" />
-                  </a>
+                  {[
+                    {
+                      id: 'github',
+                      href: 'https://github.com/AbdullahSezdi',
+                      icon: <BsGithub size={28} className="group-hover:text-blue-500 transition-colors duration-200" />
+                    },
+                    {
+                      id: 'linkedin',
+                      href: 'https://www.linkedin.com/in/abdullah-sezdi-b648a41b3/',
+                      icon: <BsLinkedin size={28} className="group-hover:text-blue-500 transition-colors duration-200" />
+                    }
+                  ].map(social => (
+                    <a
+                      key={social.id}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group p-4 text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+                    >
+                      {social.icon}
+                    </a>
+                  ))}
                 </div>
               </div>
 
@@ -162,12 +180,12 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-          </AnimatedSection>
-        </section>
+          </div>
+        </AnimatedSection>
 
         {/* Öne Çıkan Projeler */}
-        <section className="py-20 bg-gray-50 dark:bg-gray-900/50">
-          <AnimatedSection className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <AnimatedSection key="projects-section" className="py-20 bg-gray-50 dark:bg-gray-900/50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="text-3xl sm:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-600">
                 Öne Çıkan Projeler
@@ -178,8 +196,11 @@ export default function HomePage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredProjects.map((project) => (
-                <div key={project.slug} className="group bg-white dark:bg-gray-800/50 rounded-2xl p-6 shadow-lg backdrop-blur-sm hover:shadow-xl transition-all duration-200">
+              {memoizedProjects.map((project) => (
+                <div 
+                  key={project.slug} 
+                  className="group bg-white dark:bg-gray-800/50 rounded-2xl p-6 shadow-lg backdrop-blur-sm hover:shadow-xl transition-all duration-200"
+                >
                   <div className="relative aspect-video rounded-lg overflow-hidden mb-6">
                     {project.image && (
                       <Image
@@ -197,13 +218,13 @@ export default function HomePage() {
                     {project.summary}
                   </p>
                   <div className="flex flex-wrap gap-2 mb-6">
-                    {project.technologies.split(',').map((tech, index) => (
-                      <span
-                        key={`${project.slug}-${tech.trim()}`}
+                    {project.technologies.map((tech) => (
+                      <div
+                        key={`${project.slug}-${tech}`}
                         className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full"
                       >
-                        {tech.trim()}
-                      </span>
+                        {tech}
+                      </div>
                     ))}
                   </div>
                   <div className="flex items-center space-x-4 mt-4">
@@ -231,7 +252,12 @@ export default function HomePage() {
                       href={`/projects/${project.slug}`}
                       className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 transition-colors ml-auto group-hover:translate-x-1 transform duration-200"
                     >
-                      Detaylar →
+                      <div className="flex items-center">
+                        <span>Detaylar</span>
+                        <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
                     </Link>
                   </div>
                 </div>
@@ -243,15 +269,15 @@ export default function HomePage() {
                 href="/projects"
                 className="inline-flex items-center px-6 py-3 text-base font-medium text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
               >
-                Tüm Projeleri Gör
+                <div>Tüm Projeleri Gör</div>
               </Link>
             </div>
-          </AnimatedSection>
-        </section>
+          </div>
+        </AnimatedSection>
 
         {/* Öne Çıkan Blog Yazıları */}
-        <section className="py-20">
-          <AnimatedSection className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <AnimatedSection key="blog-section" className="py-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="text-3xl sm:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-600">
                 Son Blog Yazıları
@@ -261,65 +287,25 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {blogPosts.map((post) => (
-                <div key={post.slug} className="group bg-white dark:bg-gray-800/50 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-200">
-                  <div className="relative aspect-[16/9] overflow-hidden">
-                    {post.image && (
-                      <Image
-                        src={post.image}
-                        alt={post.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-200"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = '/images/blog/default.svg';
-                        }}
-                      />
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    <span className="absolute bottom-4 left-4 text-white bg-blue-500/80 px-3 py-1 rounded-full text-sm backdrop-blur-sm">
-                      {post.category}
-                    </span>
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-3">
-                      <span>{new Date(post.publishDate).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
-                      <span>•</span>
-                      <span>{post.readTime} dk okuma</span>
-                    </div>
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">
-                      {post.title}
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
-                      {post.summary}
-                    </p>
-                    <Link
-                      href={`/blog/${post.slug}`}
-                      className="inline-flex items-center text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
-                    >
-                      Devamını Oku
-                      <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div>
+            {/* Blog Posts Grid */}
+            {blogPosts.length > 0 && (
+              <div key="blog-posts-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {blogPosts.map((post) => (
+                  <BlogCard key={post.slug} post={post} />
+                ))}
+              </div>
+            )}
 
             <div className="text-center mt-12">
               <Link
                 href="/blog"
                 className="inline-flex items-center px-6 py-3 text-base font-medium text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
               >
-                Tüm Yazıları Gör
+                <div>Tüm Yazıları Gör</div>
               </Link>
             </div>
-          </AnimatedSection>
-        </section>
-
-        {/* Diğer bölümler buraya eklenecek */}
+          </div>
+        </AnimatedSection>
       </main>
     </>
   )
